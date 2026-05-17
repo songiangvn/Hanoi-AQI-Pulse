@@ -49,3 +49,7 @@ dashboard/.vendor/
 dashboard/processed/hanoi_district_hourly.parquet
 dashboard/processed/model_features.parquet
 data/vietnam_adm2_raw.geojson
+
+# Internal working notes (kept local, not published)
+dashboard/walkthrough.md
+dashboard/task.md
