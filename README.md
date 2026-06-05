@@ -1,3 +1,13 @@
+---
+title: Hanoi AQI Pulse
+emoji: 🌫️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Hanoi Air Quality Pulse
 
 <p align="center">
