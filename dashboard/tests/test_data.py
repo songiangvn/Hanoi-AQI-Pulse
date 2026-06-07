@@ -13,7 +13,7 @@ if str(DASHBOARD_ROOT) not in sys.path:
     sys.path.insert(0, str(DASHBOARD_ROOT))
 
 from src.data import DataBundle, load_bundle, _normalize_columns
-from src.utils import aqi_category, aqi_color, aqi_advisory
+from src.utils import aqi_advisory, aqi_category, aqi_color, metric_title
 
 
 PROJECT_ROOT = DASHBOARD_ROOT.parent
@@ -57,6 +57,25 @@ class TestAqiColor:
 
     def test_none_returns_grey(self):
         assert aqi_color(None) == "#7a8792"
+
+
+class TestAqiAdvisory:
+    def test_good(self):
+        assert "safe" in aqi_advisory(30).lower()
+
+    def test_hazardous(self):
+        assert "indoors" in aqi_advisory(350).lower()
+
+    def test_unknown(self):
+        assert "unavailable" in aqi_advisory(None).lower()
+
+
+class TestMetricTitle:
+    def test_pm25(self):
+        assert metric_title("pm25") == "PM2.5"
+
+    def test_aqi(self):
+        assert metric_title("aqi") == "AQI"
 
 
 class TestNormalizeColumns:
