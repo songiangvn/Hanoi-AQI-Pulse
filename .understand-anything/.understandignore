@@ -1,0 +1,57 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+# --- From .gitignore (uncomment to exclude) ---
+
+# aqicn_api_key.md
+# hf_token.txt
+# dashboard/hf_token.txt
+# .env
+# .env.*
+# env/
+# *.py[cod]
+# .pytest_cache/
+# .mypy_cache/
+# .ruff_cache/
+# .ipynb_checkpoints/
+# .DS_Store
+# Thumbs.db
+# .agents/
+# .codex/
+# data/*
+# !data/hanoi_districts.geojson
+# dashboard/data/*
+# !dashboard/data/hanoi_districts.geojson
+# Hanoi-Air-Quality-Analysis/
+# dashboard/processed/*
+# !dashboard/processed/hanoi_city_hourly.parquet
+# !dashboard/processed/hanoi_district_daily.parquet
+# logs/
+# tmp/
+# temp/
+# dashboard/.vendor/
+# dashboard/rsconnect-python/
+# dashboard/runtime/
+# dashboard/processed/hanoi_district_hourly.parquet
+# dashboard/processed/model_features.parquet
+# data/vietnam_adm2_raw.geojson
+# dashboard/task.md
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# *.test.*
+# *.spec.*
+# *.snap
+
+# --- Root planning / writeup docs (excluded per user choice) ---
+project_2.md
+project_plan.md
+proposal_writeup.md
+final_report_draft.md
+slide_structure.md
+model_raw_vs_cleaned_comparison.md

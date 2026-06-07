@@ -1,0 +1,151 @@
+{
+  "name": "Hanoi Air Quality Pulse",
+  "description": "A deployed Python Shiny dashboard for exploring Hanoi air quality across realtime station readings, 30 districts, historical temporal patterns, and short-term AQI / PM2.5 forecasts, using Plotly visualizations and scikit-learn forecasting models with a Hugging Face-backed realtime crawler.",
+  "languages": ["CSS", "Dockerfile", "Markdown", "Python", "Shell"],
+  "frameworks": ["Shiny", "Plotly", "pandas", "NumPy", "scikit-learn", "Hugging Face Hub", "Docker"],
+  "files": [
+    {"path": ".dockerignore", "language": "unknown", "sizeLines": 38, "fileCategory": "infra"},
+    {"path": ".understand-anything/.understandignore", "language": "unknown", "sizeLines": 57, "fileCategory": "code"},
+    {"path": "dashboard/.python-version", "language": "unknown", "sizeLines": 1, "fileCategory": "code"},
+    {"path": "dashboard/app.py", "language": "python", "sizeLines": 448, "fileCategory": "code"},
+    {"path": "dashboard/data/hanoi_districts.geojson", "language": "geojson", "sizeLines": 0, "fileCategory": "code"},
+    {"path": "dashboard/models/aqi_horizon_1h_cleaned.joblib", "language": "joblib", "sizeLines": 1631, "fileCategory": "code"},
+    {"path": "dashboard/models/aqi_horizon_1h.joblib", "language": "joblib", "sizeLines": 1382, "fileCategory": "code"},
+    {"path": "dashboard/models/aqi_horizon_24h_cleaned.joblib", "language": "joblib", "sizeLines": 1636, "fileCategory": "code"},
+    {"path": "dashboard/models/aqi_horizon_24h.joblib", "language": "joblib", "sizeLines": 2253, "fileCategory": "code"},
+    {"path": "dashboard/models/aqi_horizon_6h_cleaned.joblib", "language": "joblib", "sizeLines": 1683, "fileCategory": "code"},
+    {"path": "dashboard/models/aqi_horizon_6h.joblib", "language": "joblib", "sizeLines": 1532, "fileCategory": "code"},
+    {"path": "dashboard/models/pm25_horizon_1h_cleaned.joblib", "language": "joblib", "sizeLines": 1139, "fileCategory": "code"},
+    {"path": "dashboard/models/pm25_horizon_1h.joblib", "language": "joblib", "sizeLines": 1566, "fileCategory": "code"},
+    {"path": "dashboard/models/pm25_horizon_24h_cleaned.joblib", "language": "joblib", "sizeLines": 1550, "fileCategory": "code"},
+    {"path": "dashboard/models/pm25_horizon_24h.joblib", "language": "joblib", "sizeLines": 1573, "fileCategory": "code"},
+    {"path": "dashboard/models/pm25_horizon_6h_cleaned.joblib", "language": "joblib", "sizeLines": 1596, "fileCategory": "code"},
+    {"path": "dashboard/models/pm25_horizon_6h.joblib", "language": "joblib", "sizeLines": 1601, "fileCategory": "code"},
+    {"path": "dashboard/modules/__init__.py", "language": "python", "sizeLines": 4, "fileCategory": "code"},
+    {"path": "dashboard/modules/mod_district.py", "language": "python", "sizeLines": 888, "fileCategory": "code"},
+    {"path": "dashboard/modules/mod_forecast.py", "language": "python", "sizeLines": 843, "fileCategory": "code"},
+    {"path": "dashboard/modules/mod_history.py", "language": "python", "sizeLines": 730, "fileCategory": "code"},
+    {"path": "dashboard/modules/mod_overview.py", "language": "python", "sizeLines": 1187, "fileCategory": "code"},
+    {"path": "dashboard/processed/hanoi_city_hourly.parquet", "language": "parquet", "sizeLines": 4278, "fileCategory": "code"},
+    {"path": "dashboard/processed/hanoi_district_daily.parquet", "language": "parquet", "sizeLines": 1862, "fileCategory": "code"},
+    {"path": "dashboard/requirements.txt", "language": "txt", "sizeLines": 10, "fileCategory": "docs"},
+    {"path": "dashboard/scripts/collect_realtime_history.py", "language": "python", "sizeLines": 231, "fileCategory": "code"},
+    {"path": "dashboard/scripts/fetch_geojson.py", "language": "python", "sizeLines": 175, "fileCategory": "code"},
+    {"path": "dashboard/scripts/preprocess.py", "language": "python", "sizeLines": 196, "fileCategory": "code"},
+    {"path": "dashboard/scripts/train_models.py", "language": "python", "sizeLines": 45, "fileCategory": "code"},
+    {"path": "dashboard/src/__init__.py", "language": "python", "sizeLines": 2, "fileCategory": "code"},
+    {"path": "dashboard/src/anomaly.py", "language": "python", "sizeLines": 192, "fileCategory": "code"},
+    {"path": "dashboard/src/data.py", "language": "python", "sizeLines": 139, "fileCategory": "code"},
+    {"path": "dashboard/src/model.py", "language": "python", "sizeLines": 296, "fileCategory": "code"},
+    {"path": "dashboard/src/realtime_api.py", "language": "python", "sizeLines": 226, "fileCategory": "code"},
+    {"path": "dashboard/src/utils.py", "language": "python", "sizeLines": 87, "fileCategory": "code"},
+    {"path": "dashboard/styles.css", "language": "css", "sizeLines": 2294, "fileCategory": "markup"},
+    {"path": "dashboard/tests/test_anomaly.py", "language": "python", "sizeLines": 53, "fileCategory": "code"},
+    {"path": "dashboard/tests/test_data.py", "language": "python", "sizeLines": 100, "fileCategory": "code"},
+    {"path": "dashboard/tests/test_model.py", "language": "python", "sizeLines": 73, "fileCategory": "code"},
+    {"path": "dashboard/tests/test_realtime_api.py", "language": "python", "sizeLines": 65, "fileCategory": "code"},
+    {"path": "dashboard/walkthrough.md", "language": "markdown", "sizeLines": 203, "fileCategory": "docs"},
+    {"path": "data/hanoi_districts.geojson", "language": "geojson", "sizeLines": 0, "fileCategory": "code"},
+    {"path": "DEPLOYMENT.md", "language": "markdown", "sizeLines": 207, "fileCategory": "docs"},
+    {"path": "Dockerfile", "language": "dockerfile", "sizeLines": 17, "fileCategory": "infra"},
+    {"path": "README.md", "language": "markdown", "sizeLines": 223, "fileCategory": "docs"},
+    {"path": "run_slurm_realtime_crawler.sh", "language": "shell", "sizeLines": 41, "fileCategory": "script"}
+  ],
+  "totalFiles": 46,
+  "filteredByIgnore": 6,
+  "estimatedComplexity": "moderate",
+  "importMap": {
+    ".dockerignore": [],
+    ".understand-anything/.understandignore": [],
+    "dashboard/.python-version": [],
+    "dashboard/app.py": [
+      "dashboard/modules/mod_district.py",
+      "dashboard/modules/mod_forecast.py",
+      "dashboard/modules/mod_history.py",
+      "dashboard/modules/mod_overview.py",
+      "dashboard/src/data.py",
+      "dashboard/src/model.py",
+      "dashboard/src/realtime_api.py",
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/data/hanoi_districts.geojson": [],
+    "dashboard/models/aqi_horizon_1h_cleaned.joblib": [],
+    "dashboard/models/aqi_horizon_1h.joblib": [],
+    "dashboard/models/aqi_horizon_24h_cleaned.joblib": [],
+    "dashboard/models/aqi_horizon_24h.joblib": [],
+    "dashboard/models/aqi_horizon_6h_cleaned.joblib": [],
+    "dashboard/models/aqi_horizon_6h.joblib": [],
+    "dashboard/models/pm25_horizon_1h_cleaned.joblib": [],
+    "dashboard/models/pm25_horizon_1h.joblib": [],
+    "dashboard/models/pm25_horizon_24h_cleaned.joblib": [],
+    "dashboard/models/pm25_horizon_24h.joblib": [],
+    "dashboard/models/pm25_horizon_6h_cleaned.joblib": [],
+    "dashboard/models/pm25_horizon_6h.joblib": [],
+    "dashboard/modules/__init__.py": [
+      "dashboard/modules/mod_district.py",
+      "dashboard/modules/mod_forecast.py",
+      "dashboard/modules/mod_history.py",
+      "dashboard/modules/mod_overview.py"
+    ],
+    "dashboard/modules/mod_district.py": [
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/modules/mod_forecast.py": [
+      "dashboard/src/anomaly.py",
+      "dashboard/src/model.py",
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/modules/mod_history.py": [
+      "dashboard/src/anomaly.py",
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/modules/mod_overview.py": [
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/processed/hanoi_city_hourly.parquet": [],
+    "dashboard/processed/hanoi_district_daily.parquet": [],
+    "dashboard/requirements.txt": [],
+    "dashboard/scripts/collect_realtime_history.py": [
+      "dashboard/src/realtime_api.py"
+    ],
+    "dashboard/scripts/fetch_geojson.py": [],
+    "dashboard/scripts/preprocess.py": [],
+    "dashboard/scripts/train_models.py": [
+      "dashboard/src/data.py",
+      "dashboard/src/model.py"
+    ],
+    "dashboard/src/__init__.py": [],
+    "dashboard/src/anomaly.py": [],
+    "dashboard/src/data.py": [
+      "dashboard/src/anomaly.py",
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/src/model.py": [
+      "dashboard/src/anomaly.py"
+    ],
+    "dashboard/src/realtime_api.py": [],
+    "dashboard/src/utils.py": [],
+    "dashboard/styles.css": [],
+    "dashboard/tests/test_anomaly.py": [
+      "dashboard/src/anomaly.py",
+      "dashboard/src/data.py"
+    ],
+    "dashboard/tests/test_data.py": [
+      "dashboard/src/data.py",
+      "dashboard/src/utils.py"
+    ],
+    "dashboard/tests/test_model.py": [
+      "dashboard/src/data.py",
+      "dashboard/src/model.py"
+    ],
+    "dashboard/tests/test_realtime_api.py": [
+      "dashboard/src/realtime_api.py"
+    ],
+    "dashboard/walkthrough.md": [],
+    "data/hanoi_districts.geojson": [],
+    "DEPLOYMENT.md": [],
+    "Dockerfile": [],
+    "README.md": [],
+    "run_slurm_realtime_crawler.sh": []
+  }
+}
