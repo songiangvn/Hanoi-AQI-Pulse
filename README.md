@@ -1,6 +1,6 @@
 # Hanoi Air Quality Pulse
 
-Interactive spatial, temporal, realtime, and predictive visualization of Hanoi air pollution.
+Interactive spatial, temporal, real-time, and predictive visualization of Hanoi air pollution.
 
 ## Final Project Status
 
@@ -13,7 +13,7 @@ shinyapps.io account: giangnguyenson
 app title: hanoi-aqi-pulse
 ```
 
-The dashboard is designed for the final rubric requirement that the app runs live and smoothly on shinyapps.io. A department-server crawler collects realtime AQICN station history every 10 minutes and publishes it to a Hugging Face Dataset, so the deployed app can show fresh history even when no Shiny session is open.
+The dashboard is designed to satisfy the final rubric requirement that the app runs live and smoothly on shinyapps.io. A department-server crawler collects real-time AQICN station history every 10 minutes and publishes it to a Hugging Face dataset, so the deployed app can show fresh history even when no Shiny session is open.
 
 Main question:
 
@@ -103,7 +103,7 @@ The forecast is framed as short-term risk prediction rather than a perfect senso
 - Production input: the app uses realtime AQICN / HF history values when present and falls back to the cleaned historical feature row when live fields are missing.
 - Explanation: radar driver chart, model-vs-baseline error, backtest chart, and PCA learning-space view.
 
-Current limitation to explain in Q&A: the crawler reliably stores realtime AQI, PM2.5, PM10, station coordinates, and timestamps. Some weather and secondary pollutant features still come from fallback or historical context when realtime values are unavailable.
+Current limitation to explain in Q&A: the crawler reliably stores real-time AQI, PM2.5, PM10, station coordinates, and timestamps. Some weather and secondary pollutant features still come from fallback or historical context when real-time values are unavailable.
 
 ## Chart and Interaction Inventory
 
