@@ -186,9 +186,14 @@ HaNoiAQI/
 
 ## Run Locally
 
+From the repository root:
+
 ```bash
-cd /vol/biomedic3/gn425/HaNoiAQI/dashboard
-.venv/bin/shiny run app.py --host 0.0.0.0 --port 8005
+cd dashboard
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+shiny run app.py --host 0.0.0.0 --port 8005
 ```
 
 Then open:
@@ -199,9 +204,11 @@ http://localhost:8005
 
 ## Test
 
+From the repository root, with the dashboard virtual environment active:
+
 ```bash
-cd /vol/biomedic3/gn425/HaNoiAQI
-dashboard/.venv/bin/pytest dashboard/tests
+pip install pytest
+pytest dashboard/tests
 ```
 
 The latest verification during final dashboard development passed the dashboard test suite.
