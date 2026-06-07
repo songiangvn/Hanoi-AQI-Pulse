@@ -1,0 +1,2800 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "67b443a244c491c85fc81cfe5f64db04b0d52da1",
+  "generatedAt": "2026-06-07T11:38:27.458Z",
+  "files": {
+    ".dockerignore": {
+      "filePath": ".dockerignore",
+      "contentHash": "2d9cad972d6b8a73dcf8a69c2b4beff7ddd6238de361fd502c0e475230240e46",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "ec4b13ace628d85dccbd5887b138db251a5db983c4a7a3cbcb74c9b34f71f78c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/.python-version": {
+      "filePath": "dashboard/.python-version",
+      "contentHash": "ceba8fa5c10f40fbed8feb7eb5238b63dda568908acfd874ee413747b29936c8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/app.py": {
+      "filePath": "dashboard/app.py",
+      "contentHash": "cae014346dd59678eeb93c9dc6ff9880ea440bd724c267e7d65ba8aa5e4197b5",
+      "functions": [
+        {
+          "name": "nearest_station",
+          "params": [
+            "lat",
+            "lon",
+            "stations"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "snapshot_overrides",
+          "params": [
+            "snapshot"
+          ],
+          "returnType": "dict[str, float]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_snapshot_time",
+          "params": [
+            "snapshot"
+          ],
+          "returnType": "pd.Timestamp",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_snapshot_history_row",
+          "params": [
+            "snapshot"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "_trim_realtime_history",
+          "params": [
+            "history"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_empty_realtime_history",
+          "params": [],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_load_remote_realtime_history",
+          "params": [],
+          "returnType": "pd.DataFrame | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "load_realtime_history",
+          "params": [],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "save_realtime_history",
+          "params": [
+            "history"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "snapshot_from_realtime_history",
+          "params": [
+            "history"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "stations_from_realtime_history",
+          "params": [
+            "history"
+          ],
+          "returnType": "list[dict[str, Any]]",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "historical_snapshot",
+          "params": [],
+          "returnType": "dict[str, Any]",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "server",
+          "params": [
+            "input",
+            "output",
+            "session"
+          ],
+          "exported": true,
+          "lineCount": 148
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "requests",
+          "specifiers": [
+            "requests"
+          ]
+        },
+        {
+          "source": "shiny",
+          "specifiers": [
+            "App",
+            "reactive",
+            "render",
+            "ui"
+          ]
+        },
+        {
+          "source": "modules.mod_overview",
+          "specifiers": [
+            "overview_ui",
+            "overview_server"
+          ]
+        },
+        {
+          "source": "modules.mod_district",
+          "specifiers": [
+            "district_ui",
+            "district_server"
+          ]
+        },
+        {
+          "source": "modules.mod_history",
+          "specifiers": [
+            "history_ui",
+            "history_server"
+          ]
+        },
+        {
+          "source": "modules.mod_forecast",
+          "specifiers": [
+            "forecast_ui",
+            "forecast_server"
+          ]
+        },
+        {
+          "source": "src.data",
+          "specifiers": [
+            "DataBundle",
+            "load_bundle"
+          ]
+        },
+        {
+          "source": "src.model",
+          "specifiers": [
+            "ModelArtifacts",
+            "load_model_artifact",
+            "predict_next",
+            "save_model_artifact",
+            "train_city_model"
+          ]
+        },
+        {
+          "source": "src.realtime_api",
+          "specifiers": [
+            "fetch_fresh_waqi_snapshot",
+            "fetch_open_meteo_snapshot",
+            "read_aqicn_token"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "aqi_category"
+          ]
+        }
+      ],
+      "exports": [
+        "nearest_station",
+        "snapshot_overrides",
+        "_snapshot_time",
+        "_snapshot_history_row",
+        "_trim_realtime_history",
+        "_empty_realtime_history",
+        "_load_remote_realtime_history",
+        "load_realtime_history",
+        "save_realtime_history",
+        "snapshot_from_realtime_history",
+        "stations_from_realtime_history",
+        "historical_snapshot",
+        "server"
+      ],
+      "totalLines": 449,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/data/hanoi_districts.geojson": {
+      "filePath": "dashboard/data/hanoi_districts.geojson",
+      "contentHash": "80885389c05a0a7803526967a6b464451071dc60a70facdc49f21be63ad5aa45",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/aqi_horizon_1h_cleaned.joblib": {
+      "filePath": "dashboard/models/aqi_horizon_1h_cleaned.joblib",
+      "contentHash": "aecba571b18a735fea6cb8bdfe7a45708c4b6ad1eabffd6cafd9cc2afd515548",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1632,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/aqi_horizon_1h.joblib": {
+      "filePath": "dashboard/models/aqi_horizon_1h.joblib",
+      "contentHash": "4803a981085c4968d4d56d4befac77ba8dbd5ada544a968825e67fd86c64e783",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1383,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/aqi_horizon_24h_cleaned.joblib": {
+      "filePath": "dashboard/models/aqi_horizon_24h_cleaned.joblib",
+      "contentHash": "673e7d0221c570797c4d5e75f28b8f2f7141f73fc7d9cae09cdeb81d691bb8e1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1637,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/aqi_horizon_24h.joblib": {
+      "filePath": "dashboard/models/aqi_horizon_24h.joblib",
+      "contentHash": "355b735850b1ba91a95d1b0e362276a57498db3b5466992db00ba0aaafaaea69",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2254,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/aqi_horizon_6h_cleaned.joblib": {
+      "filePath": "dashboard/models/aqi_horizon_6h_cleaned.joblib",
+      "contentHash": "cb114675ce728f68088969285ff6f48ea3747f6b9570b4e1bf20f9cacdb2da37",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1684,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/aqi_horizon_6h.joblib": {
+      "filePath": "dashboard/models/aqi_horizon_6h.joblib",
+      "contentHash": "a995517f12d71a25e9cd426a074264bbda8d356e597f5b22f18bc46cc517ba71",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1533,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/pm25_horizon_1h_cleaned.joblib": {
+      "filePath": "dashboard/models/pm25_horizon_1h_cleaned.joblib",
+      "contentHash": "f2da1e160178636b479277a6c429dc43c396eb76bc362d2727353655ca8076fe",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1140,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/pm25_horizon_1h.joblib": {
+      "filePath": "dashboard/models/pm25_horizon_1h.joblib",
+      "contentHash": "8dcd058ed3770b83a677a321692b879bf6e31fb0fae7dfa1f73542adb06e0b33",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1567,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/pm25_horizon_24h_cleaned.joblib": {
+      "filePath": "dashboard/models/pm25_horizon_24h_cleaned.joblib",
+      "contentHash": "9ca7945e95011a7f20ade507e5cdc50c55bf8c9153c4de6cb74dea18da4ee12a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1551,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/pm25_horizon_24h.joblib": {
+      "filePath": "dashboard/models/pm25_horizon_24h.joblib",
+      "contentHash": "fdfdd8e44ff8aba2686d21537524317f0af7639cee4271c55e1303df31c413e9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1574,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/pm25_horizon_6h_cleaned.joblib": {
+      "filePath": "dashboard/models/pm25_horizon_6h_cleaned.joblib",
+      "contentHash": "bb75219c7f6a5d626fda744d9295dcbbe28f39dd1e9beb73b56bbb3580acddfa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1597,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/models/pm25_horizon_6h.joblib": {
+      "filePath": "dashboard/models/pm25_horizon_6h.joblib",
+      "contentHash": "2492773c84e821d45ba81d70a0037f6e23eb97e0f0602ad474b12c7c11c8cd3e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1602,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/modules/__init__.py": {
+      "filePath": "dashboard/modules/__init__.py",
+      "contentHash": "dc88bbf23a22dd6f06d4f94298745001f96ed9896a3ba19ccd048719284ed2f8",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "modules.mod_overview",
+          "specifiers": [
+            "overview_ui",
+            "overview_server"
+          ]
+        },
+        {
+          "source": "modules.mod_district",
+          "specifiers": [
+            "district_ui",
+            "district_server"
+          ]
+        },
+        {
+          "source": "modules.mod_history",
+          "specifiers": [
+            "history_ui",
+            "history_server"
+          ]
+        },
+        {
+          "source": "modules.mod_forecast",
+          "specifiers": [
+            "forecast_ui",
+            "forecast_server"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/modules/mod_district.py": {
+      "filePath": "dashboard/modules/mod_district.py",
+      "contentHash": "836d42ad23866c5d601ef344344b98a7b52e5d5c97296779afd91e4d9914b02f",
+      "functions": [
+        {
+          "name": "_load_geojson",
+          "params": [],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_dark_fig",
+          "params": [
+            "fig",
+            "height"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_blank",
+          "params": [
+            "msg"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_plotly_html",
+          "params": [
+            "fig"
+          ],
+          "returnType": "ui.HTML",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_rgba_from_aqi",
+          "params": [
+            "aqi",
+            "alpha"
+          ],
+          "returnType": "list[int]",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_district_3d_geojson",
+          "params": [
+            "map_frame",
+            "selected"
+          ],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 43
+        },
+        {
+          "name": "_district_map_srcdoc",
+          "params": [
+            "geojson",
+            "selected_count",
+            "period_label"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 191
+        },
+        {
+          "name": "_district_2d_figure",
+          "params": [
+            "mdf",
+            "selected"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 70
+        },
+        {
+          "name": "_aqi_bg_style",
+          "params": [
+            "val"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "district_ui",
+          "params": [],
+          "exported": true,
+          "lineCount": 89
+        },
+        {
+          "name": "district_server",
+          "params": [
+            "input",
+            "output",
+            "session",
+            "district_daily"
+          ],
+          "exported": true,
+          "lineCount": 369
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "functools",
+          "specifiers": [
+            "lru_cache"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Callable"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "plotly.express",
+          "specifiers": [
+            "px"
+          ]
+        },
+        {
+          "source": "plotly.graph_objects",
+          "specifiers": [
+            "go"
+          ]
+        },
+        {
+          "source": "shiny",
+          "specifiers": [
+            "module",
+            "reactive",
+            "render",
+            "ui"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "aqi_category",
+            "aqi_color",
+            "sanitize_figure"
+          ]
+        }
+      ],
+      "exports": [
+        "_load_geojson",
+        "_dark_fig",
+        "_blank",
+        "_plotly_html",
+        "_rgba_from_aqi",
+        "_district_3d_geojson",
+        "_district_map_srcdoc",
+        "_district_2d_figure",
+        "_aqi_bg_style",
+        "district_ui",
+        "district_server"
+      ],
+      "totalLines": 889,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/modules/mod_forecast.py": {
+      "filePath": "dashboard/modules/mod_forecast.py",
+      "contentHash": "3ef99e42624ceb6ce34f8122544b1899ac88d30f3f9567eed3f2d84b5155aa55",
+      "functions": [
+        {
+          "name": "_dark_fig",
+          "params": [
+            "fig",
+            "height"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_blank",
+          "params": [
+            "msg"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_plotly_html",
+          "params": [
+            "fig"
+          ],
+          "returnType": "ui.HTML",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_driver_display_name",
+          "params": [
+            "feature"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "_snapshot_overrides",
+          "params": [
+            "snapshot"
+          ],
+          "returnType": "dict[str, float]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_latest_feature_row",
+          "params": [
+            "city_hourly",
+            "artifacts",
+            "snapshot"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "_mood_class",
+          "params": [
+            "category"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_lexce_owl",
+          "params": [
+            "mood_class"
+          ],
+          "returnType": "ui.Tag",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "_input_source_chip",
+          "params": [
+            "source"
+          ],
+          "returnType": "tuple[str, str]",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "forecast_ui",
+          "params": [],
+          "exported": true,
+          "lineCount": 84
+        },
+        {
+          "name": "forecast_server",
+          "params": [
+            "input",
+            "output",
+            "session",
+            "prediction_context",
+            "get_model",
+            "snapshot",
+            "city_hourly"
+          ],
+          "exported": true,
+          "lineCount": 580
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "Callable"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "plotly.express",
+          "specifiers": [
+            "px"
+          ]
+        },
+        {
+          "source": "plotly.graph_objects",
+          "specifiers": [
+            "go"
+          ]
+        },
+        {
+          "source": "sklearn.decomposition",
+          "specifiers": [
+            "PCA"
+          ]
+        },
+        {
+          "source": "sklearn.preprocessing",
+          "specifiers": [
+            "StandardScaler"
+          ]
+        },
+        {
+          "source": "shiny",
+          "specifiers": [
+            "module",
+            "reactive",
+            "render",
+            "ui"
+          ]
+        },
+        {
+          "source": "src.anomaly",
+          "specifiers": [
+            "metric_col_for_mode"
+          ]
+        },
+        {
+          "source": "src.model",
+          "specifiers": [
+            "FEATURE_BASE",
+            "_build_features"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "aqi_advisory",
+            "aqi_category",
+            "aqi_color",
+            "sanitize_figure"
+          ]
+        }
+      ],
+      "exports": [
+        "_dark_fig",
+        "_blank",
+        "_plotly_html",
+        "_driver_display_name",
+        "_snapshot_overrides",
+        "_latest_feature_row",
+        "_mood_class",
+        "_lexce_owl",
+        "_input_source_chip",
+        "forecast_ui",
+        "forecast_server"
+      ],
+      "totalLines": 844,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/modules/mod_history.py": {
+      "filePath": "dashboard/modules/mod_history.py",
+      "contentHash": "bcfdfbf4ccc811837accc1dbac297b51e39f52cd9951b669de81493b1aa9febf",
+      "functions": [
+        {
+          "name": "_dark_fig",
+          "params": [
+            "fig",
+            "height"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_blank",
+          "params": [
+            "msg"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_plotly_html",
+          "params": [
+            "fig"
+          ],
+          "returnType": "ui.HTML",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "history_ui",
+          "params": [],
+          "exported": true,
+          "lineCount": 98
+        },
+        {
+          "name": "history_server",
+          "params": [
+            "input",
+            "output",
+            "session",
+            "city_hourly"
+          ],
+          "exported": true,
+          "lineCount": 557
+        },
+        {
+          "name": "_ordinal",
+          "params": [
+            "n"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "typing",
+          "specifiers": [
+            "Callable"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "plotly.graph_objects",
+          "specifiers": [
+            "go"
+          ]
+        },
+        {
+          "source": "shiny",
+          "specifiers": [
+            "module",
+            "reactive",
+            "render",
+            "ui"
+          ]
+        },
+        {
+          "source": "src.anomaly",
+          "specifiers": [
+            "metric_col_for_mode",
+            "quality_summary"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "AQI_BANDS",
+            "aqi_category",
+            "aqi_color",
+            "sanitize_figure"
+          ]
+        }
+      ],
+      "exports": [
+        "_dark_fig",
+        "_blank",
+        "_plotly_html",
+        "history_ui",
+        "history_server",
+        "_ordinal"
+      ],
+      "totalLines": 731,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/modules/mod_overview.py": {
+      "filePath": "dashboard/modules/mod_overview.py",
+      "contentHash": "1bfb424357be1008119d7ab812cbc16a577ba96c6e3d951768af9fe19bcbc5c5",
+      "functions": [
+        {
+          "name": "_dark_fig",
+          "params": [
+            "fig",
+            "height"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_blank",
+          "params": [
+            "msg"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_plotly_html",
+          "params": [
+            "fig"
+          ],
+          "returnType": "ui.HTML",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_recent_aqi",
+          "params": [
+            "city_hourly"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_recent_realtime_aqi",
+          "params": [
+            "history"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_time_label",
+          "params": [
+            "ts"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_date_label",
+          "params": [
+            "ts"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_snapshot_aqi",
+          "params": [
+            "snapshot_value",
+            "city_hourly"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_one_hour_prediction",
+          "params": [
+            "prediction_context"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_load_hanoi_geojson",
+          "params": [],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_rgba_from_aqi",
+          "params": [
+            "aqi",
+            "alpha"
+          ],
+          "returnType": "list[int]",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_rgba_from_hex",
+          "params": [
+            "color",
+            "alpha"
+          ],
+          "returnType": "list[int]",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_district_reference_color",
+          "params": [
+            "district",
+            "idx"
+          ],
+          "returnType": "list[int]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_district_3d_geojson",
+          "params": [
+            "district_frame",
+            "city_aqi"
+          ],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 42
+        },
+        {
+          "name": "_station_3d_rows",
+          "params": [
+            "stations",
+            "snapshot_value"
+          ],
+          "returnType": "list[dict[str, Any]]",
+          "exported": true,
+          "lineCount": 41
+        },
+        {
+          "name": "_deck_map_srcdoc",
+          "params": [
+            "geojson",
+            "stations",
+            "source_label"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 336
+        },
+        {
+          "name": "overview_ui",
+          "params": [],
+          "exported": true,
+          "lineCount": 99
+        },
+        {
+          "name": "overview_server",
+          "params": [
+            "input",
+            "output",
+            "session",
+            "city_hourly",
+            "station_cache",
+            "snapshot",
+            "realtime_history",
+            "prediction_context",
+            "district_map_frame"
+          ],
+          "exported": true,
+          "lineCount": 503
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "functools",
+          "specifiers": [
+            "lru_cache"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "Callable"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "plotly.express",
+          "specifiers": [
+            "px"
+          ]
+        },
+        {
+          "source": "plotly.graph_objects",
+          "specifiers": [
+            "go"
+          ]
+        },
+        {
+          "source": "shiny",
+          "specifiers": [
+            "module",
+            "reactive",
+            "render",
+            "ui"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "AQI_BANDS",
+            "aqi_advisory",
+            "aqi_category",
+            "aqi_color",
+            "sanitize_figure"
+          ]
+        }
+      ],
+      "exports": [
+        "_dark_fig",
+        "_blank",
+        "_plotly_html",
+        "_recent_aqi",
+        "_recent_realtime_aqi",
+        "_time_label",
+        "_date_label",
+        "_snapshot_aqi",
+        "_one_hour_prediction",
+        "_load_hanoi_geojson",
+        "_rgba_from_aqi",
+        "_rgba_from_hex",
+        "_district_reference_color",
+        "_district_3d_geojson",
+        "_station_3d_rows",
+        "_deck_map_srcdoc",
+        "overview_ui",
+        "overview_server"
+      ],
+      "totalLines": 1188,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/processed/hanoi_city_hourly.parquet": {
+      "filePath": "dashboard/processed/hanoi_city_hourly.parquet",
+      "contentHash": "5b33a9fe7bd75175862b3f23bf2de608e22b035f2e79ba2af6a0dff8c85de69f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4279,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/processed/hanoi_district_daily.parquet": {
+      "filePath": "dashboard/processed/hanoi_district_daily.parquet",
+      "contentHash": "dfcc4bd766d45384ef1fe9ff6922a7e942e5c38d421f1705d77e36aa18d1fcf7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1863,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/requirements.txt": {
+      "filePath": "dashboard/requirements.txt",
+      "contentHash": "b276855da5bdd9ac2580e30d992855f9f61830205c116d1bec4ee2d5e4650b23",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/scripts/collect_realtime_history.py": {
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "contentHash": "027adbc1114fdda7ebefb343c3227d9dc170e556c2a30958eff4a4e340397015",
+      "functions": [
+        {
+          "name": "nearest_station",
+          "params": [
+            "lat",
+            "lon",
+            "stations"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "snapshot_time",
+          "params": [
+            "snapshot"
+          ],
+          "returnType": "pd.Timestamp",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "snapshot_row",
+          "params": [
+            "snapshot"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "trim_history",
+          "params": [
+            "history",
+            "max_hours"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "load_history",
+          "params": [
+            "path",
+            "max_hours"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "save_history",
+          "params": [
+            "history",
+            "path",
+            "max_hours"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "read_hf_token",
+          "params": [],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "upload_history_to_hf",
+          "params": [
+            "path",
+            "repo_id",
+            "repo_path",
+            "token",
+            "ensure_repo"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "fetch_snapshot",
+          "params": [
+            "token",
+            "keyword"
+          ],
+          "returnType": "dict[str, Any]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "collect_once",
+          "params": [
+            "output",
+            "max_hours",
+            "keyword",
+            "hf_repo_id",
+            "hf_path",
+            "hf_upload",
+            "hf_create_repo"
+          ],
+          "returnType": "tuple[dict[str, Any], bool] | None",
+          "exported": true,
+          "lineCount": 31
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 42
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "src.realtime_api",
+          "specifiers": [
+            "fetch_fresh_waqi_snapshot",
+            "fetch_open_meteo_snapshot",
+            "read_aqicn_token"
+          ]
+        }
+      ],
+      "exports": [
+        "nearest_station",
+        "snapshot_time",
+        "snapshot_row",
+        "trim_history",
+        "load_history",
+        "save_history",
+        "read_hf_token",
+        "upload_history_to_hf",
+        "fetch_snapshot",
+        "collect_once",
+        "main"
+      ],
+      "totalLines": 232,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/scripts/fetch_geojson.py": {
+      "filePath": "dashboard/scripts/fetch_geojson.py",
+      "contentHash": "a07111a76f7063bfe979d1d46ff0a7016edbfa1a49d927e7c3f16edc84539834",
+      "functions": [
+        {
+          "name": "_strip_prefix",
+          "params": [
+            "name"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_match_district",
+          "params": [
+            "geojson_name"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "fetch_geojson",
+          "params": [],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "filter_hanoi",
+          "params": [
+            "geojson"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 53
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "requests",
+          "specifiers": [
+            "requests"
+          ]
+        }
+      ],
+      "exports": [
+        "_strip_prefix",
+        "_match_district",
+        "fetch_geojson",
+        "filter_hanoi",
+        "main"
+      ],
+      "totalLines": 176,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/scripts/preprocess.py": {
+      "filePath": "dashboard/scripts/preprocess.py",
+      "contentHash": "61029e277d3515ab183a13b9efa5ff22fbf82c12497ba62de36a8892a61cb1b1",
+      "functions": [
+        {
+          "name": "normalize_cols",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "build_city_hourly",
+          "params": [],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "build_district_daily",
+          "params": [],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "build_district_hourly",
+          "params": [],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 49
+        },
+        {
+          "name": "build_model_features",
+          "params": [
+            "city"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        }
+      ],
+      "exports": [
+        "normalize_cols",
+        "build_city_hourly",
+        "build_district_daily",
+        "build_district_hourly",
+        "build_model_features",
+        "main"
+      ],
+      "totalLines": 197,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/scripts/train_models.py": {
+      "filePath": "dashboard/scripts/train_models.py",
+      "contentHash": "1a16c274177f9d85e793ad0fc217eaccda164800f707e82eb317d5b569a1eddf",
+      "functions": [
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "src.data",
+          "specifiers": [
+            "load_bundle"
+          ]
+        },
+        {
+          "source": "src.model",
+          "specifiers": [
+            "save_model_artifact",
+            "train_city_model"
+          ]
+        }
+      ],
+      "exports": [
+        "main"
+      ],
+      "totalLines": 46,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/src/__init__.py": {
+      "filePath": "dashboard/src/__init__.py",
+      "contentHash": "7c48087a95962439813db1da0165edd596b2ab07998ec853a65e3297701907ee",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/src/anomaly.py": {
+      "filePath": "dashboard/src/anomaly.py",
+      "contentHash": "d0063451211c76ca4ba04c8475033e08573423baaa3380a597732896673cbbc0",
+      "functions": [
+        {
+          "name": "_rolling_mad",
+          "params": [
+            "series",
+            "window",
+            "min_periods"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_safe_clip",
+          "params": [
+            "series",
+            "center",
+            "scale",
+            "threshold"
+          ],
+          "returnType": "pd.Series",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "apply_city_quality_flags",
+          "params": [
+            "df",
+            "cols",
+            "window",
+            "min_periods",
+            "robust_threshold",
+            "clean_threshold"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 93
+        },
+        {
+          "name": "metric_col_for_mode",
+          "params": [
+            "df",
+            "metric_col",
+            "data_mode"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "quality_summary",
+          "params": [
+            "df"
+          ],
+          "returnType": "QualitySummary",
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "classes": [
+        {
+          "name": "QualitySummary",
+          "methods": [],
+          "properties": [
+            "rows",
+            "anomaly_rows",
+            "sensor_like_rows",
+            "episode_rows",
+            "mode_note"
+          ],
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "imports": [
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Iterable"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        }
+      ],
+      "exports": [
+        "QualitySummary",
+        "_rolling_mad",
+        "_safe_clip",
+        "apply_city_quality_flags",
+        "metric_col_for_mode",
+        "quality_summary"
+      ],
+      "totalLines": 193,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/src/data.py": {
+      "filePath": "dashboard/src/data.py",
+      "contentHash": "56d3c84acc2591f36e2e145ac09a4b5be5d9147bdd8d612d08a0a7dd8fec3fc6",
+      "functions": [
+        {
+          "name": "_normalize_columns",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "load_city_hourly",
+          "params": [
+            "data_root",
+            "processed_root"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 43
+        },
+        {
+          "name": "load_district_daily",
+          "params": [
+            "data_root",
+            "processed_root"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "load_district_hourly",
+          "params": [
+            "processed_root"
+          ],
+          "returnType": "pd.DataFrame | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "load_bundle",
+          "params": [
+            "data_root",
+            "processed_root",
+            "include_district_hourly"
+          ],
+          "returnType": "DataBundle",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "DataBundle",
+          "methods": [],
+          "properties": [
+            "city_hourly",
+            "district_daily",
+            "district_hourly"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "imports": [
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "src.anomaly",
+          "specifiers": [
+            "apply_city_quality_flags"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "aqi_category"
+          ]
+        }
+      ],
+      "exports": [
+        "DataBundle",
+        "_normalize_columns",
+        "load_city_hourly",
+        "load_district_daily",
+        "load_district_hourly",
+        "load_bundle"
+      ],
+      "totalLines": 140,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/src/model.py": {
+      "filePath": "dashboard/src/model.py",
+      "contentHash": "f95f1cb1a7d461a58490a0bc3c0b664f9acabd971b7a38b7174907fa2d936f5d",
+      "functions": [
+        {
+          "name": "_safe_numeric",
+          "params": [
+            "df",
+            "cols"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_build_features",
+          "params": [
+            "city_hourly",
+            "horizon_hours",
+            "target_col",
+            "data_mode"
+          ],
+          "returnType": "tuple[pd.DataFrame, pd.Series, list[str], pd.Series]",
+          "exported": true,
+          "lineCount": 44
+        },
+        {
+          "name": "_candidate_models",
+          "params": [
+            "horizon_hours"
+          ],
+          "returnType": "dict[str, object]",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "_compute_permutation_importance",
+          "params": [
+            "model",
+            "X_test",
+            "y_test",
+            "feature_cols",
+            "n_repeats"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "train_city_model",
+          "params": [
+            "city_hourly",
+            "horizon_hours",
+            "target_col",
+            "data_mode"
+          ],
+          "returnType": "ModelArtifacts",
+          "exported": true,
+          "lineCount": 77
+        },
+        {
+          "name": "predict_next",
+          "params": [
+            "city_hourly",
+            "artifacts",
+            "overrides"
+          ],
+          "returnType": "float",
+          "exported": true,
+          "lineCount": 38
+        },
+        {
+          "name": "model_path",
+          "params": [
+            "model_dir",
+            "horizon_hours",
+            "target_col",
+            "data_mode"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "save_model_artifact",
+          "params": [
+            "artifact",
+            "model_dir"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "load_model_artifact",
+          "params": [
+            "model_dir",
+            "horizon_hours",
+            "target_col",
+            "data_mode"
+          ],
+          "returnType": "ModelArtifacts | None",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelArtifacts",
+          "methods": [],
+          "properties": [
+            "horizon_hours",
+            "model",
+            "feature_cols",
+            "mae",
+            "rmse",
+            "baseline_mae",
+            "baseline_rmse",
+            "validation",
+            "feature_importance",
+            "model_name",
+            "trained_rows",
+            "target_col",
+            "data_mode"
+          ],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "imports": [
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass",
+            "field"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Iterable"
+          ]
+        },
+        {
+          "source": "joblib",
+          "specifiers": [
+            "joblib"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "sklearn.base",
+          "specifiers": [
+            "clone"
+          ]
+        },
+        {
+          "source": "sklearn.ensemble",
+          "specifiers": [
+            "HistGradientBoostingRegressor"
+          ]
+        },
+        {
+          "source": "sklearn.inspection",
+          "specifiers": [
+            "permutation_importance"
+          ]
+        },
+        {
+          "source": "sklearn.metrics",
+          "specifiers": [
+            "mean_absolute_error",
+            "mean_squared_error"
+          ]
+        },
+        {
+          "source": "src.anomaly",
+          "specifiers": [
+            "metric_col_for_mode"
+          ]
+        }
+      ],
+      "exports": [
+        "ModelArtifacts",
+        "_safe_numeric",
+        "_build_features",
+        "_candidate_models",
+        "_compute_permutation_importance",
+        "train_city_model",
+        "predict_next",
+        "model_path",
+        "save_model_artifact",
+        "load_model_artifact"
+      ],
+      "totalLines": 297,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/src/realtime_api.py": {
+      "filePath": "dashboard/src/realtime_api.py",
+      "contentHash": "3f9eb6d3420c86f289fdea2aaed844937f91da84bfc5bbc8ceb9126f531a0e8a",
+      "functions": [
+        {
+          "name": "read_aqicn_token",
+          "params": [
+            "project_root"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "_parse_station_time",
+          "params": [
+            "time_payload"
+          ],
+          "returnType": "datetime | None",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "_is_fresh_station",
+          "params": [
+            "station_time",
+            "max_age_hours"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "fetch_waqi_stations",
+          "params": [
+            "token",
+            "keyword"
+          ],
+          "returnType": "list[dict[str, Any]]",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "fetch_waqi_station_detail",
+          "params": [
+            "token",
+            "uid"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_station_snapshot_from_detail",
+          "params": [
+            "token",
+            "st"
+          ],
+          "returnType": "dict[str, Any] | None",
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "fetch_fresh_waqi_snapshot",
+          "params": [
+            "token",
+            "keyword",
+            "max_details"
+          ],
+          "returnType": "list[dict[str, Any]]",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "fetch_open_meteo_snapshot",
+          "params": [
+            "lat",
+            "lon"
+          ],
+          "returnType": "dict[str, Any]",
+          "exported": true,
+          "lineCount": 60
+        },
+        {
+          "name": "to_json",
+          "params": [
+            "value"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "concurrent.futures",
+          "specifiers": [
+            "ThreadPoolExecutor",
+            "as_completed"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime",
+            "timedelta",
+            "timezone"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "requests",
+          "specifiers": [
+            "requests"
+          ]
+        }
+      ],
+      "exports": [
+        "read_aqicn_token",
+        "_parse_station_time",
+        "_is_fresh_station",
+        "fetch_waqi_stations",
+        "fetch_waqi_station_detail",
+        "_station_snapshot_from_detail",
+        "fetch_fresh_waqi_snapshot",
+        "fetch_open_meteo_snapshot",
+        "to_json"
+      ],
+      "totalLines": 227,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/src/utils.py": {
+      "filePath": "dashboard/src/utils.py",
+      "contentHash": "2ca2b5b83cc57266b5780f7e2e35edf1d50f80ab71c520593bc677576cf0de5c",
+      "functions": [
+        {
+          "name": "aqi_category",
+          "params": [
+            "aqi"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "aqi_color",
+          "params": [
+            "aqi"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "aqi_advisory",
+          "params": [
+            "aqi"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "metric_title",
+          "params": [
+            "metric"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_json_safe_value",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "sanitize_figure",
+          "params": [
+            "fig"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date",
+            "datetime"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "plotly.graph_objects",
+          "specifiers": [
+            "go"
+          ]
+        }
+      ],
+      "exports": [
+        "aqi_category",
+        "aqi_color",
+        "aqi_advisory",
+        "metric_title",
+        "_json_safe_value",
+        "sanitize_figure"
+      ],
+      "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/styles.css": {
+      "filePath": "dashboard/styles.css",
+      "contentHash": "0b70c7d0abd3d295fd4baf8d13ba8a517f526e6ea1d8ddf43e3c4b667eb8a8e2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2295,
+      "hasStructuralAnalysis": false
+    },
+    "dashboard/tests/test_anomaly.py": {
+      "filePath": "dashboard/tests/test_anomaly.py",
+      "contentHash": "7c60f709dc625a80b7f7287224011001e50c3651cb02211aa144ec7d6efe4802",
+      "functions": [
+        {
+          "name": "test_apply_city_quality_flags_adds_clean_columns",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "test_metric_col_for_mode_prefers_cleaned_when_available",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_loaded_city_has_quality_summary",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "src.anomaly",
+          "specifiers": [
+            "apply_city_quality_flags",
+            "metric_col_for_mode",
+            "quality_summary"
+          ]
+        },
+        {
+          "source": "src.data",
+          "specifiers": [
+            "load_bundle"
+          ]
+        }
+      ],
+      "exports": [
+        "test_apply_city_quality_flags_adds_clean_columns",
+        "test_metric_col_for_mode_prefers_cleaned_when_available",
+        "test_loaded_city_has_quality_summary"
+      ],
+      "totalLines": 54,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/tests/test_data.py": {
+      "filePath": "dashboard/tests/test_data.py",
+      "contentHash": "37ddd5b7dbe5fd58a6c28408703b5f583083fd89458d20f1e978cce49130e41c",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestAqiCategory",
+          "methods": [
+            "test_good",
+            "test_moderate",
+            "test_usg",
+            "test_unhealthy",
+            "test_very_unhealthy",
+            "test_hazardous",
+            "test_boundary_50",
+            "test_none",
+            "test_nan"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "TestAqiColor",
+          "methods": [
+            "test_returns_hex",
+            "test_none_returns_grey"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "TestNormalizeColumns",
+          "methods": [
+            "test_lowercases",
+            "test_strips_whitespace"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "TestLoadBundle",
+          "methods": [
+            "bundle",
+            "test_city_hourly_not_empty",
+            "test_city_has_local_time",
+            "test_city_has_aqi",
+            "test_district_daily_not_empty",
+            "test_district_has_time",
+            "test_district_has_district_col",
+            "test_district_has_30_districts"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "src.data",
+          "specifiers": [
+            "DataBundle",
+            "load_bundle",
+            "_normalize_columns"
+          ]
+        },
+        {
+          "source": "src.utils",
+          "specifiers": [
+            "aqi_category",
+            "aqi_color",
+            "aqi_advisory"
+          ]
+        }
+      ],
+      "exports": [
+        "TestAqiCategory",
+        "TestAqiColor",
+        "TestNormalizeColumns",
+        "TestLoadBundle"
+      ],
+      "totalLines": 101,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/tests/test_model.py": {
+      "filePath": "dashboard/tests/test_model.py",
+      "contentHash": "af5c9a374466fbd9e6067a1c99d8fdcfc8896c26caa345985c044e08941b59ee",
+      "functions": [
+        {
+          "name": "city_data",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [
+        {
+          "name": "TestBuildFeatures",
+          "methods": [
+            "test_output_shape",
+            "test_feature_cols_include_lags",
+            "test_feature_cols_include_time",
+            "test_pm25_target"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "TestLoadModel",
+          "methods": [
+            "test_loads_existing_aqi_1h",
+            "test_loads_pm25"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "TestPrediction",
+          "methods": [
+            "test_predict_returns_float"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "src.data",
+          "specifiers": [
+            "load_bundle"
+          ]
+        },
+        {
+          "source": "src.model",
+          "specifiers": [
+            "ModelArtifacts",
+            "_build_features",
+            "train_city_model",
+            "predict_next",
+            "load_model_artifact"
+          ]
+        }
+      ],
+      "exports": [
+        "city_data",
+        "TestBuildFeatures",
+        "TestLoadModel",
+        "TestPrediction"
+      ],
+      "totalLines": 74,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/tests/test_realtime_api.py": {
+      "filePath": "dashboard/tests/test_realtime_api.py",
+      "contentHash": "663e3c456750a908aaad6d13335d1c3a6a2ffd93676000822ddc14d18ed19051",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestReadAqicnToken",
+          "methods": [
+            "test_reads_from_file",
+            "test_token_length"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "TestIsFreshStation",
+          "methods": [
+            "test_fresh_station",
+            "test_stale_station",
+            "test_none_station",
+            "test_boundary_48h"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "TestParseStationTime",
+          "methods": [
+            "test_iso_format",
+            "test_s_format",
+            "test_empty_dict",
+            "test_none"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 16
+        }
+      ],
+      "imports": [
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime",
+            "timedelta",
+            "timezone"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "src.realtime_api",
+          "specifiers": [
+            "_is_fresh_station",
+            "_parse_station_time",
+            "read_aqicn_token"
+          ]
+        }
+      ],
+      "exports": [
+        "TestReadAqicnToken",
+        "TestIsFreshStation",
+        "TestParseStationTime"
+      ],
+      "totalLines": 66,
+      "hasStructuralAnalysis": true
+    },
+    "dashboard/walkthrough.md": {
+      "filePath": "dashboard/walkthrough.md",
+      "contentHash": "775970a4b0695148d5454b9819ddf8a765ae42098064de763c2e6ab2ca562c35",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 204,
+      "hasStructuralAnalysis": true
+    },
+    "data/hanoi_districts.geojson": {
+      "filePath": "data/hanoi_districts.geojson",
+      "contentHash": "80885389c05a0a7803526967a6b464451071dc60a70facdc49f21be63ad5aa45",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "DEPLOYMENT.md": {
+      "filePath": "DEPLOYMENT.md",
+      "contentHash": "2ba7437dba62675f2ac48ed783f8cb3e3e33b05673733025127900dbe4984708",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 208,
+      "hasStructuralAnalysis": true
+    },
+    "Dockerfile": {
+      "filePath": "Dockerfile",
+      "contentHash": "3af545f1fe6a00714790931db195cfc53ee3b11a087001f688787d043ba70e27",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "4b17573e5bf004d1f811225f96dc8522b0a7b664f61d91fd6225235d8ac96a8a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 224,
+      "hasStructuralAnalysis": true
+    },
+    "run_slurm_realtime_crawler.sh": {
+      "filePath": "run_slurm_realtime_crawler.sh",
+      "contentHash": "62b2795bdbc4049736622314636e912c3ceedec27d028a11b3266be0e6a4e76f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 42,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

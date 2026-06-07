@@ -1,0 +1,3591 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "Hanoi Air Quality Pulse",
+    "languages": [
+      "Python",
+      "CSS",
+      "Markdown",
+      "Dockerfile",
+      "Shell"
+    ],
+    "frameworks": [
+      "Shiny",
+      "Plotly",
+      "pandas",
+      "NumPy",
+      "scikit-learn",
+      "Hugging Face Hub",
+      "Docker"
+    ],
+    "description": "A deployed Python Shiny dashboard for exploring Hanoi air quality across realtime station readings, 30 districts, historical temporal patterns, and short-term AQI/PM2.5 forecasts.",
+    "analyzedAt": "2026-06-07T11:38:05Z",
+    "gitCommitHash": "67b443a244c491c85fc81cfe5f64db04b0d52da1"
+  },
+  "nodes": [
+    {
+      "id": "file:dashboard/modules/mod_forecast.py",
+      "type": "file",
+      "name": "mod_forecast.py",
+      "filePath": "dashboard/modules/mod_forecast.py",
+      "summary": "Shiny feature module for the air-quality forecast tab, rendering the prediction hero, AQI gauge, PCA feature-space scatter, model accuracy, feature importance radar, and validation timeline with reactive insights.",
+      "tags": [
+        "component",
+        "service",
+        "event-handler",
+        "visualization",
+        "forecast"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses Shiny reactive calcs and @render.ui outputs heavily; Plotly figures are serialized to HTML via a dark-theme helper."
+    },
+    {
+      "id": "function:dashboard/modules/mod_forecast.py:_latest_feature_row",
+      "type": "function",
+      "name": "_latest_feature_row",
+      "filePath": "dashboard/modules/mod_forecast.py",
+      "lineRange": [
+        89,
+        117
+      ],
+      "summary": "Builds the most recent feature row for live prediction by recomputing lag and rolling features from city hourly data and applying snapshot overrides.",
+      "tags": [
+        "feature-engineering",
+        "utility",
+        "prediction"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_forecast.py:_lexce_owl",
+      "type": "function",
+      "name": "_lexce_owl",
+      "filePath": "dashboard/modules/mod_forecast.py",
+      "lineRange": [
+        131,
+        155
+      ],
+      "summary": "Renders the animated 'Lexce' owl mascot as nested Shiny UI divs styled per air-quality mood class.",
+      "tags": [
+        "component",
+        "ui",
+        "presentation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_forecast.py:forecast_ui",
+      "type": "function",
+      "name": "forecast_ui",
+      "filePath": "dashboard/modules/mod_forecast.py",
+      "lineRange": [
+        175,
+        258
+      ],
+      "summary": "Assembles the forecast tab layout including target/horizon selectors and output placeholders for hero, gauge, feature-space, accuracy, importance, and validation panels.",
+      "tags": [
+        "component",
+        "ui",
+        "layout",
+        "entry-point"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_forecast.py:forecast_server",
+      "type": "function",
+      "name": "forecast_server",
+      "filePath": "dashboard/modules/mod_forecast.py",
+      "lineRange": [
+        264,
+        843
+      ],
+      "summary": "Shiny server function wiring all forecast reactive calcs and renderers: selects the model, computes prediction context and PCA feature space, and produces every chart and insight panel for the tab.",
+      "tags": [
+        "service",
+        "event-handler",
+        "reactive",
+        "entry-point"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:dashboard/scripts/train_models.py",
+      "type": "file",
+      "name": "train_models.py",
+      "filePath": "dashboard/scripts/train_models.py",
+      "summary": "Offline batch script that loads the data bundle and trains/saves city forecast model artifacts across target/horizon combinations.",
+      "tags": [
+        "script",
+        "entry-point",
+        "machine-learning",
+        "batch-job"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/scripts/train_models.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "dashboard/scripts/train_models.py",
+      "lineRange": [
+        22,
+        41
+      ],
+      "summary": "Loads the data bundle, iterates over target/horizon combinations, trains each city model, and saves the resulting artifacts to disk.",
+      "tags": [
+        "entry-point",
+        "machine-learning",
+        "batch-job"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/src/anomaly.py",
+      "type": "file",
+      "name": "anomaly.py",
+      "filePath": "dashboard/src/anomaly.py",
+      "summary": "Air-quality data quality and anomaly detection module that flags spikes, sensor-stuck values, and extreme episodes via rolling robust z-scores and produces cleaned metric columns.",
+      "tags": [
+        "data-model",
+        "validation",
+        "anomaly-detection",
+        "data-pipeline",
+        "tested"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Uses rolling median/MAD robust statistics (1.4826 scaling) for outlier detection instead of mean/std."
+    },
+    {
+      "id": "class:dashboard/src/anomaly.py:QualitySummary",
+      "type": "class",
+      "name": "QualitySummary",
+      "filePath": "dashboard/src/anomaly.py",
+      "lineRange": [
+        51,
+        56
+      ],
+      "summary": "Dataclass holding aggregate data-quality counts (total rows, anomalies, sensor-like rows, extreme episodes) plus a mode note.",
+      "tags": [
+        "data-model",
+        "type-definition",
+        "dataclass"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/anomaly.py:apply_city_quality_flags",
+      "type": "function",
+      "name": "apply_city_quality_flags",
+      "filePath": "dashboard/src/anomaly.py",
+      "lineRange": [
+        75,
+        167
+      ],
+      "summary": "Adds quality flags and cleaned columns to city hourly data by detecting spikes, out-of-range values, and sensor-stuck readings using rolling robust statistics.",
+      "tags": [
+        "validation",
+        "anomaly-detection",
+        "feature-engineering"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/src/anomaly.py:metric_col_for_mode",
+      "type": "function",
+      "name": "metric_col_for_mode",
+      "filePath": "dashboard/src/anomaly.py",
+      "lineRange": [
+        170,
+        175
+      ],
+      "summary": "Resolves the appropriate metric column name (raw vs cleaned) for a given data mode.",
+      "tags": [
+        "utility",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/anomaly.py:quality_summary",
+      "type": "function",
+      "name": "quality_summary",
+      "filePath": "dashboard/src/anomaly.py",
+      "lineRange": [
+        178,
+        192
+      ],
+      "summary": "Aggregates quality flag columns into a QualitySummary with row, anomaly, sensor-like, and extreme-episode counts.",
+      "tags": [
+        "utility",
+        "validation",
+        "aggregation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/src/data.py",
+      "type": "file",
+      "name": "data.py",
+      "filePath": "dashboard/src/data.py",
+      "summary": "Core data-loading layer that reads city hourly and district datasets from parquet/CSV sources, normalizes columns, derives AQI fields, and bundles them for the dashboard.",
+      "tags": [
+        "data-model",
+        "data-pipeline",
+        "serialization",
+        "loader",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:dashboard/src/data.py:DataBundle",
+      "type": "class",
+      "name": "DataBundle",
+      "filePath": "dashboard/src/data.py",
+      "lineRange": [
+        20,
+        23
+      ],
+      "summary": "Dataclass bundling the loaded city hourly, district daily, and optional district hourly DataFrames.",
+      "tags": [
+        "data-model",
+        "type-definition",
+        "dataclass"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/data.py:load_city_hourly",
+      "type": "function",
+      "name": "load_city_hourly",
+      "filePath": "dashboard/src/data.py",
+      "lineRange": [
+        34,
+        76
+      ],
+      "summary": "Loads Hanoi city hourly air-quality data from parquet or CSV fallback, parses timestamps, derives AQI categories and calendar fields, and applies quality flags.",
+      "tags": [
+        "loader",
+        "data-pipeline",
+        "serialization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/data.py:load_district_daily",
+      "type": "function",
+      "name": "load_district_daily",
+      "filePath": "dashboard/src/data.py",
+      "lineRange": [
+        81,
+        108
+      ],
+      "summary": "Loads district-level daily air-quality data for Hanoi from parquet or CSV, normalizing columns and coercing numeric fields.",
+      "tags": [
+        "loader",
+        "data-pipeline",
+        "serialization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/data.py:load_bundle",
+      "type": "function",
+      "name": "load_bundle",
+      "filePath": "dashboard/src/data.py",
+      "lineRange": [
+        127,
+        139
+      ],
+      "summary": "Assembles a DataBundle by invoking the city hourly, district daily, and optional district hourly loaders.",
+      "tags": [
+        "loader",
+        "factory",
+        "data-pipeline"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/src/model.py",
+      "type": "file",
+      "name": "model.py",
+      "filePath": "dashboard/src/model.py",
+      "summary": "Forecast modeling layer that builds lag/rolling features, trains and selects gradient-boosting regressors, computes feature importance, and persists/loads model artifacts for prediction.",
+      "tags": [
+        "service",
+        "machine-learning",
+        "data-model",
+        "serialization",
+        "tested"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses scikit-learn HistGradientBoostingRegressor candidates with time-ordered train/test split and permutation importance."
+    },
+    {
+      "id": "class:dashboard/src/model.py:ModelArtifacts",
+      "type": "class",
+      "name": "ModelArtifacts",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        24,
+        37
+      ],
+      "summary": "Dataclass holding a trained model plus its feature columns, evaluation metrics, validation frame, feature importance, and metadata.",
+      "tags": [
+        "data-model",
+        "type-definition",
+        "dataclass",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/model.py:_build_features",
+      "type": "function",
+      "name": "_build_features",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        55,
+        98
+      ],
+      "summary": "Constructs the supervised feature matrix and shifted target from city hourly data using lag, rolling, and calendar features for a given horizon.",
+      "tags": [
+        "feature-engineering",
+        "machine-learning",
+        "data-pipeline"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/model.py:_compute_permutation_importance",
+      "type": "function",
+      "name": "_compute_permutation_importance",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        127,
+        146
+      ],
+      "summary": "Computes permutation feature importance for a trained model, falling back to native feature importances when available.",
+      "tags": [
+        "machine-learning",
+        "evaluation",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/model.py:train_city_model",
+      "type": "function",
+      "name": "train_city_model",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        149,
+        225
+      ],
+      "summary": "Trains candidate gradient-boosting models on a time-ordered split, selects the best by MAE, computes baselines and importance, and returns a populated ModelArtifacts.",
+      "tags": [
+        "machine-learning",
+        "training",
+        "model-selection"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/src/model.py:predict_next",
+      "type": "function",
+      "name": "predict_next",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        228,
+        265
+      ],
+      "summary": "Recomputes the latest feature row from city hourly data, applies overrides, and returns the model's next-step forecast value.",
+      "tags": [
+        "machine-learning",
+        "prediction",
+        "feature-engineering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/model.py:load_model_artifact",
+      "type": "function",
+      "name": "load_model_artifact",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        284,
+        296
+      ],
+      "summary": "Loads a persisted ModelArtifacts from disk by horizon/target/mode key, returning None when the artifact is missing.",
+      "tags": [
+        "serialization",
+        "loader",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/model.py:save_model_artifact",
+      "type": "function",
+      "name": "save_model_artifact",
+      "filePath": "dashboard/src/model.py",
+      "lineRange": [
+        277,
+        281
+      ],
+      "summary": "Persists a trained ModelArtifacts to disk under the horizon/target/mode-derived path using joblib compression, creating the model directory if needed.",
+      "tags": [
+        "serialization",
+        "machine-learning",
+        "io"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/tests/test_anomaly.py",
+      "type": "file",
+      "name": "test_anomaly.py",
+      "filePath": "dashboard/tests/test_anomaly.py",
+      "summary": "Unit tests for the anomaly module verifying quality flag/clean column creation, metric column resolution, and quality summary on loaded data.",
+      "tags": [
+        "test",
+        "validation",
+        "anomaly-detection"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/tests/test_data.py",
+      "type": "file",
+      "name": "test_data.py",
+      "filePath": "dashboard/tests/test_data.py",
+      "summary": "Unit tests for AQI categorization/coloring, column normalization, and the data bundle loader covering city hourly and district datasets.",
+      "tags": [
+        "test",
+        "data-pipeline",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:dashboard/tests/test_data.py:TestAqiCategory",
+      "type": "class",
+      "name": "TestAqiCategory",
+      "filePath": "dashboard/tests/test_data.py",
+      "lineRange": [
+        23,
+        49
+      ],
+      "summary": "Test suite exercising AQI category boundaries from Good through Hazardous including None and NaN handling.",
+      "tags": [
+        "test",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:dashboard/tests/test_data.py:TestLoadBundle",
+      "type": "class",
+      "name": "TestLoadBundle",
+      "filePath": "dashboard/tests/test_data.py",
+      "lineRange": [
+        75,
+        100
+      ],
+      "summary": "Test suite validating the loaded data bundle's city hourly and district daily frames including expected columns and 30-district coverage.",
+      "tags": [
+        "test",
+        "data-pipeline",
+        "integration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/tests/test_model.py",
+      "type": "file",
+      "name": "test_model.py",
+      "filePath": "dashboard/tests/test_model.py",
+      "summary": "Unit tests for the model module covering feature building output, loading persisted artifacts, and the prediction path returning a finite float.",
+      "tags": [
+        "test",
+        "machine-learning",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:dashboard/tests/test_model.py:TestBuildFeatures",
+      "type": "class",
+      "name": "TestBuildFeatures",
+      "filePath": "dashboard/tests/test_model.py",
+      "lineRange": [
+        29,
+        48
+      ],
+      "summary": "Test suite verifying _build_features output shape and that feature columns include lag, rolling, time, and pm25 target features.",
+      "tags": [
+        "test",
+        "machine-learning",
+        "feature-engineering"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/app.py",
+      "type": "file",
+      "name": "app.py",
+      "filePath": "dashboard/app.py",
+      "summary": "Application entry point that builds the Shiny UI, wires the four feature modules (overview, district, history, forecast), and runs the server-side realtime polling loop that fetches WAQI/Open-Meteo snapshots and persists rolling realtime history.",
+      "tags": [
+        "entry-point",
+        "service",
+        "event-handler",
+        "data-pipeline",
+        "realtime"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses Shiny for Python reactive primitives (reactive.value, reactive.invalidate_later) to drive periodic background refresh of live air-quality data."
+    },
+    {
+      "id": "function:dashboard/app.py:snapshot_overrides",
+      "type": "function",
+      "name": "snapshot_overrides",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        77,
+        91
+      ],
+      "summary": "Maps a realtime snapshot dict onto the model's feature column names, coercing values to floats for downstream prediction.",
+      "tags": [
+        "utility",
+        "serialization",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/app.py:_snapshot_history_row",
+      "type": "function",
+      "name": "_snapshot_history_row",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        110,
+        131
+      ],
+      "summary": "Normalizes a live snapshot into a single timestamped history row, converting timezones to Asia/Ho_Chi_Minh and coercing pollutant metrics to numeric.",
+      "tags": [
+        "serialization",
+        "data-model",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/app.py:_trim_realtime_history",
+      "type": "function",
+      "name": "_trim_realtime_history",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        134,
+        146
+      ],
+      "summary": "Cleans and bounds the realtime history DataFrame by parsing timestamps, dropping invalid rows, removing duplicates, and keeping only a recent time window.",
+      "tags": [
+        "utility",
+        "validation",
+        "data-pipeline"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/app.py:_load_remote_realtime_history",
+      "type": "function",
+      "name": "_load_remote_realtime_history",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        153,
+        162
+      ],
+      "summary": "Fetches realtime history CSV from a configured remote URL and parses it into a trimmed DataFrame.",
+      "tags": [
+        "data-pipeline",
+        "realtime",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/app.py:load_realtime_history",
+      "type": "function",
+      "name": "load_realtime_history",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        165,
+        174
+      ],
+      "summary": "Loads realtime history from the remote source when available, otherwise falls back to the local runtime CSV file.",
+      "tags": [
+        "data-pipeline",
+        "realtime",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/app.py:snapshot_from_realtime_history",
+      "type": "function",
+      "name": "snapshot_from_realtime_history",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        185,
+        204
+      ],
+      "summary": "Derives the latest live snapshot dict from the most recent valid row of the realtime history DataFrame.",
+      "tags": [
+        "data-model",
+        "serialization",
+        "realtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/app.py:stations_from_realtime_history",
+      "type": "function",
+      "name": "stations_from_realtime_history",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        207,
+        231
+      ],
+      "summary": "Builds the per-station list (with AQI category labels) from the deduplicated tail of the realtime history for map and table display.",
+      "tags": [
+        "data-model",
+        "serialization",
+        "realtime"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/app.py:historical_snapshot",
+      "type": "function",
+      "name": "historical_snapshot",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        234,
+        259
+      ],
+      "summary": "Produces a fallback snapshot from the latest non-null city-hourly historical record when live data is unavailable.",
+      "tags": [
+        "data-model",
+        "serialization",
+        "fallback"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/app.py:server",
+      "type": "function",
+      "name": "server",
+      "filePath": "dashboard/app.py",
+      "lineRange": [
+        298,
+        445
+      ],
+      "summary": "Top-level Shiny server callback that initializes reactive state, schedules periodic realtime refresh, lazily trains/loads the forecast model, and delegates to each feature module's server function.",
+      "tags": [
+        "entry-point",
+        "event-handler",
+        "service",
+        "realtime"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Defines nested reactive effects and calc functions (refresh_realtime, _poll_refresh, prediction_context) that compose Shiny's reactive graph."
+    },
+    {
+      "id": "file:dashboard/modules/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "dashboard/modules/__init__.py",
+      "summary": "Package barrel that re-exports the four feature module entry points (overview, district, history, forecast) for convenient import from the app.",
+      "tags": [
+        "entry-point",
+        "barrel",
+        "exports"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/modules/mod_district.py",
+      "type": "file",
+      "name": "mod_district.py",
+      "filePath": "dashboard/modules/mod_district.py",
+      "summary": "District-level feature module rendering 2D/3D choropleth maps of Hanoi districts with year/month filtering, selection presets (top-5, above-average, PM2.5 hotspots), and ranking tables.",
+      "tags": [
+        "component",
+        "service",
+        "data-visualization",
+        "event-handler"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Embeds a deck.gl/Leaflet HTML map via an iframe srcdoc generated from GeoJSON, alongside Plotly choropleth fallbacks."
+    },
+    {
+      "id": "function:dashboard/modules/mod_district.py:_district_3d_geojson",
+      "type": "function",
+      "name": "_district_3d_geojson",
+      "filePath": "dashboard/modules/mod_district.py",
+      "lineRange": [
+        107,
+        149
+      ],
+      "summary": "Builds an enriched GeoJSON feature collection for the 3D district map, attaching per-district AQI values, category labels, colors, and extrusion heights.",
+      "tags": [
+        "serialization",
+        "data-visualization",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_district.py:_district_map_srcdoc",
+      "type": "function",
+      "name": "_district_map_srcdoc",
+      "filePath": "dashboard/modules/mod_district.py",
+      "lineRange": [
+        152,
+        342
+      ],
+      "summary": "Generates the full HTML srcdoc string for the embedded interactive district map, injecting GeoJSON data and JavaScript map logic.",
+      "tags": [
+        "data-visualization",
+        "serialization",
+        "markup"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/modules/mod_district.py:_district_2d_figure",
+      "type": "function",
+      "name": "_district_2d_figure",
+      "filePath": "dashboard/modules/mod_district.py",
+      "lineRange": [
+        345,
+        414
+      ],
+      "summary": "Constructs the Plotly 2D choropleth-mapbox figure highlighting selected vs unselected districts with marker overlays.",
+      "tags": [
+        "data-visualization",
+        "factory",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_district.py:district_ui",
+      "type": "function",
+      "name": "district_ui",
+      "filePath": "dashboard/modules/mod_district.py",
+      "lineRange": [
+        426,
+        514
+      ],
+      "summary": "Defines the district tab UI layout: map view, selection controls, preset action buttons, and ranking/insight panels.",
+      "tags": [
+        "component",
+        "ui-layout",
+        "factory"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_district.py:district_server",
+      "type": "function",
+      "name": "district_server",
+      "filePath": "dashboard/modules/mod_district.py",
+      "lineRange": [
+        520,
+        888
+      ],
+      "summary": "Server logic for the district tab: reactive filtering by year/month, selection-preset handlers, and rendering of the map, ranking table, and monthly trend insights.",
+      "tags": [
+        "service",
+        "event-handler",
+        "data-visualization"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:dashboard/modules/mod_history.py",
+      "type": "file",
+      "name": "mod_history.py",
+      "filePath": "dashboard/modules/mod_history.py",
+      "summary": "History feature module that renders long-term AQI/pollutant trends, seasonal/monthly breakdowns, AQI-category matrices, and applies anomaly quality flags to the city hourly time series.",
+      "tags": [
+        "component",
+        "service",
+        "data-visualization",
+        "anomaly-detection"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/modules/mod_history.py:history_ui",
+      "type": "function",
+      "name": "history_ui",
+      "filePath": "dashboard/modules/mod_history.py",
+      "lineRange": [
+        65,
+        162
+      ],
+      "summary": "Defines the history tab UI layout with pollutant/year selectors and panels for trends, monthly insights, and category matrices.",
+      "tags": [
+        "component",
+        "ui-layout",
+        "factory"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_history.py:history_server",
+      "type": "function",
+      "name": "history_server",
+      "filePath": "dashboard/modules/mod_history.py",
+      "lineRange": [
+        168,
+        724
+      ],
+      "summary": "Server logic for the history tab: prepares daily/monthly aggregates with quality flags, and renders trend charts, highlights, category matrices, and insight text.",
+      "tags": [
+        "service",
+        "event-handler",
+        "data-visualization",
+        "anomaly-detection"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:dashboard/modules/mod_overview.py",
+      "type": "file",
+      "name": "mod_overview.py",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "summary": "Overview (landing) feature module presenting the live citywide AQI snapshot, a 3D deck.gl district/station map, near-term prediction, and headline metric cards.",
+      "tags": [
+        "component",
+        "service",
+        "data-visualization",
+        "realtime"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Builds an embedded deck.gl map via a generated HTML srcdoc combining district GeoJSON extrusions and station scatter rows."
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:_recent_aqi",
+      "type": "function",
+      "name": "_recent_aqi",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        61,
+        70
+      ],
+      "summary": "Returns the most recent valid city-hourly AQI value from the historical series.",
+      "tags": [
+        "utility",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:_recent_realtime_aqi",
+      "type": "function",
+      "name": "_recent_realtime_aqi",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        73,
+        85
+      ],
+      "summary": "Extracts the latest realtime AQI value from the live history DataFrame.",
+      "tags": [
+        "utility",
+        "data-model",
+        "realtime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:_one_hour_prediction",
+      "type": "function",
+      "name": "_one_hour_prediction",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        110,
+        124
+      ],
+      "summary": "Computes the one-hour-ahead AQI prediction value for the overview headline display.",
+      "tags": [
+        "utility",
+        "prediction",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:_district_3d_geojson",
+      "type": "function",
+      "name": "_district_3d_geojson",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        153,
+        194
+      ],
+      "summary": "Builds the enriched GeoJSON feature collection for the overview 3D district map with AQI-driven colors and extrusion heights.",
+      "tags": [
+        "serialization",
+        "data-visualization",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:_station_3d_rows",
+      "type": "function",
+      "name": "_station_3d_rows",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        197,
+        237
+      ],
+      "summary": "Transforms the live station list into scatter-layer rows (coordinates, color, height) for the deck.gl overview map.",
+      "tags": [
+        "serialization",
+        "data-visualization",
+        "realtime"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:_deck_map_srcdoc",
+      "type": "function",
+      "name": "_deck_map_srcdoc",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        240,
+        575
+      ],
+      "summary": "Generates the complete deck.gl map HTML srcdoc, embedding district GeoJSON, station rows, and the JavaScript rendering logic.",
+      "tags": [
+        "data-visualization",
+        "serialization",
+        "markup"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:overview_ui",
+      "type": "function",
+      "name": "overview_ui",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        581,
+        679
+      ],
+      "summary": "Defines the overview tab UI layout with the live map, AQI snapshot card, prediction display, and metric panels.",
+      "tags": [
+        "component",
+        "ui-layout",
+        "factory"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/modules/mod_overview.py:overview_server",
+      "type": "function",
+      "name": "overview_server",
+      "filePath": "dashboard/modules/mod_overview.py",
+      "lineRange": [
+        685,
+        1187
+      ],
+      "summary": "Server logic for the overview tab: renders the live deck.gl map, citywide AQI snapshot, advisory, and forecast headline from reactive snapshot/station/prediction state.",
+      "tags": [
+        "service",
+        "event-handler",
+        "data-visualization",
+        "realtime"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:dashboard/src/utils.py",
+      "type": "file",
+      "name": "utils.py",
+      "filePath": "dashboard/src/utils.py",
+      "summary": "Shared helper library providing AQI category classification, color and advisory lookups, metric titles, and Plotly figure JSON sanitization used across all dashboard modules.",
+      "tags": [
+        "utility",
+        "serialization",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/utils.py:aqi_advisory",
+      "type": "function",
+      "name": "aqi_advisory",
+      "filePath": "dashboard/src/utils.py",
+      "lineRange": [
+        40,
+        51
+      ],
+      "summary": "Returns a human-readable health advisory message for a given AQI value based on its category band.",
+      "tags": [
+        "utility",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/utils.py:_json_safe_value",
+      "type": "function",
+      "name": "_json_safe_value",
+      "filePath": "dashboard/src/utils.py",
+      "lineRange": [
+        59,
+        78
+      ],
+      "summary": "Recursively coerces values (NaN, numpy types, nested structures) into JSON-serializable forms for safe figure serialization.",
+      "tags": [
+        "serialization",
+        "utility",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/scripts/collect_realtime_history.py",
+      "type": "file",
+      "name": "collect_realtime_history.py",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "summary": "SLURM crawler job that polls live AQICN/WAQI and Open-Meteo snapshots on an interval, appends rows to a rolling realtime history CSV, and publishes the result to a Hugging Face Dataset.",
+      "tags": [
+        "script",
+        "data-pipeline",
+        "entry-point",
+        "crawler",
+        "serialization"
+      ],
+      "complexity": "complex",
+      "languageNotes": "CLI entry point built with argparse; uses atomic CSV writes (write-to-temp then replace) and a polling loop driven by time.sleep."
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:snapshot_row",
+      "type": "function",
+      "name": "snapshot_row",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        47,
+        63
+      ],
+      "summary": "Normalizes a raw station snapshot into a single history row, converting timestamps to Asia/Ho_Chi_Minh local time and coercing pollutant/weather fields to numeric values.",
+      "tags": [
+        "serialization",
+        "data-model",
+        "normalization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:trim_history",
+      "type": "function",
+      "name": "trim_history",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        66,
+        78
+      ],
+      "summary": "Cleans and bounds a history DataFrame by dropping invalid timestamps, retaining only rows within the max-hours window, and de-duplicating sorted records.",
+      "tags": [
+        "utility",
+        "data-cleaning",
+        "dataframe"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:load_history",
+      "type": "function",
+      "name": "load_history",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        81,
+        87
+      ],
+      "summary": "Loads the realtime history CSV from disk (returning an empty DataFrame when absent) and trims it to the retention window.",
+      "tags": [
+        "utility",
+        "io",
+        "dataframe"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:read_hf_token",
+      "type": "function",
+      "name": "read_hf_token",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        97,
+        106
+      ],
+      "summary": "Resolves a Hugging Face access token from environment variables or a local token file.",
+      "tags": [
+        "utility",
+        "security",
+        "credentials"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:upload_history_to_hf",
+      "type": "function",
+      "name": "upload_history_to_hf",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        109,
+        140
+      ],
+      "summary": "Uploads the local history CSV to a Hugging Face Dataset repository, optionally creating the repo first via the HfApi client.",
+      "tags": [
+        "service",
+        "data-pipeline",
+        "io",
+        "deployment"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:fetch_snapshot",
+      "type": "function",
+      "name": "fetch_snapshot",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        143,
+        150
+      ],
+      "summary": "Fetches a fresh WAQI station snapshot for the given keyword and enriches it with the nearest-station Open-Meteo weather reading.",
+      "tags": [
+        "service",
+        "api-handler",
+        "data-pipeline"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:collect_once",
+      "type": "function",
+      "name": "collect_once",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        153,
+        183
+      ],
+      "summary": "Runs one collection cycle: fetches a snapshot, appends a normalized row to the loaded history, saves the CSV, and optionally uploads it to Hugging Face.",
+      "tags": [
+        "data-pipeline",
+        "orchestration",
+        "service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/collect_realtime_history.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "dashboard/scripts/collect_realtime_history.py",
+      "lineRange": [
+        186,
+        227
+      ],
+      "summary": "CLI entry point that parses arguments and drives the polling loop, invoking collect_once on the configured interval with error handling.",
+      "tags": [
+        "entry-point",
+        "cli",
+        "orchestration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:dashboard/src/realtime_api.py",
+      "type": "file",
+      "name": "realtime_api.py",
+      "filePath": "dashboard/src/realtime_api.py",
+      "summary": "Client module that fetches live AQICN/WAQI station readings (list, detail, and freshness filtering) and Open-Meteo air-quality and weather snapshots for the dashboard.",
+      "tags": [
+        "service",
+        "api-handler",
+        "data-fetching",
+        "integration",
+        "tested"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses concurrent.futures.ThreadPoolExecutor to fetch station details in parallel; performs defensive parsing of nested external API payloads."
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:read_aqicn_token",
+      "type": "function",
+      "name": "read_aqicn_token",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        20,
+        35
+      ],
+      "summary": "Resolves the AQICN/WAQI API token from an environment variable or a local key file via regex extraction.",
+      "tags": [
+        "utility",
+        "security",
+        "credentials"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:_parse_station_time",
+      "type": "function",
+      "name": "_parse_station_time",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        38,
+        53
+      ],
+      "summary": "Parses a WAQI station time payload into a timezone-aware datetime, handling both ISO and space-separated timestamp formats.",
+      "tags": [
+        "utility",
+        "parsing",
+        "datetime"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:_is_fresh_station",
+      "type": "function",
+      "name": "_is_fresh_station",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        56,
+        61
+      ],
+      "summary": "Determines whether a station reading is recent enough by comparing its timestamp against a maximum age threshold.",
+      "tags": [
+        "utility",
+        "validation",
+        "datetime"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:fetch_waqi_stations",
+      "type": "function",
+      "name": "fetch_waqi_stations",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        64,
+        88
+      ],
+      "summary": "Queries the WAQI search API for stations matching a keyword and returns a normalized list of station records with coordinates and AQI.",
+      "tags": [
+        "api-handler",
+        "data-fetching",
+        "service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:fetch_waqi_station_detail",
+      "type": "function",
+      "name": "fetch_waqi_station_detail",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        91,
+        101
+      ],
+      "summary": "Fetches the detailed feed payload for a single WAQI station by UID.",
+      "tags": [
+        "api-handler",
+        "data-fetching",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:_station_snapshot_from_detail",
+      "type": "function",
+      "name": "_station_snapshot_from_detail",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        104,
+        140
+      ],
+      "summary": "Fetches a station's detail feed and extracts a normalized snapshot of AQI, location, and individual pollutant/weather measurements, filtering out stale readings.",
+      "tags": [
+        "serialization",
+        "data-model",
+        "parsing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:fetch_fresh_waqi_snapshot",
+      "type": "function",
+      "name": "fetch_fresh_waqi_snapshot",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        143,
+        160
+      ],
+      "summary": "Fetches fresh snapshots for matched WAQI stations concurrently using a thread pool and aggregates the non-stale results.",
+      "tags": [
+        "service",
+        "concurrency",
+        "data-fetching"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/src/realtime_api.py:fetch_open_meteo_snapshot",
+      "type": "function",
+      "name": "fetch_open_meteo_snapshot",
+      "filePath": "dashboard/src/realtime_api.py",
+      "lineRange": [
+        163,
+        222
+      ],
+      "summary": "Fetches current air-quality and weather variables from the Open-Meteo APIs for a coordinate and merges them into a single snapshot dict.",
+      "tags": [
+        "api-handler",
+        "data-fetching",
+        "integration"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:dashboard/tests/test_realtime_api.py",
+      "type": "file",
+      "name": "test_realtime_api.py",
+      "filePath": "dashboard/tests/test_realtime_api.py",
+      "summary": "Unit tests for realtime_api helpers, covering token resolution, station freshness boundaries, and station time parsing across formats.",
+      "tags": [
+        "test",
+        "validation",
+        "unit-test"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:dashboard/tests/test_realtime_api.py:TestReadAqicnToken",
+      "type": "class",
+      "name": "TestReadAqicnToken",
+      "filePath": "dashboard/tests/test_realtime_api.py",
+      "lineRange": [
+        20,
+        29
+      ],
+      "summary": "Test case verifying that read_aqicn_token resolves a token and returns a value of expected length.",
+      "tags": [
+        "test",
+        "unit-test",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:dashboard/tests/test_realtime_api.py:TestIsFreshStation",
+      "type": "class",
+      "name": "TestIsFreshStation",
+      "filePath": "dashboard/tests/test_realtime_api.py",
+      "lineRange": [
+        32,
+        47
+      ],
+      "summary": "Test case exercising _is_fresh_station for fresh, stale, None, and 48-hour boundary inputs.",
+      "tags": [
+        "test",
+        "unit-test",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:dashboard/tests/test_realtime_api.py:TestParseStationTime",
+      "type": "class",
+      "name": "TestParseStationTime",
+      "filePath": "dashboard/tests/test_realtime_api.py",
+      "lineRange": [
+        50,
+        65
+      ],
+      "summary": "Test case verifying _parse_station_time handles ISO format, space-separated format, empty dict, and None inputs.",
+      "tags": [
+        "test",
+        "unit-test",
+        "parsing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.dockerignore",
+      "type": "config",
+      "name": ".dockerignore",
+      "filePath": ".dockerignore",
+      "summary": "Docker build-context exclusion list that keeps caches, virtualenvs, secrets, logs, and bulky raw data out of the image, while explicitly whitelisting the GeoJSON boundaries and processed parquet datasets the dashboard needs at runtime.",
+      "tags": [
+        "configuration",
+        "containerization",
+        "infrastructure",
+        "build-system"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Uses negation patterns (!data/...) to re-include specific processed datasets after broadly excluding the data/ and dashboard/processed/ directories."
+    },
+    {
+      "id": "service:Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "Dockerfile",
+      "summary": "Single-stage Docker build on python:3.11-slim that installs the dashboard's pip requirements, copies the project, and runs the Shiny app on port 7860.",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "deployment",
+        "python"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Layers requirements.txt copy and pip install before copying the full project so dependency layers are cached independently of source changes."
+    },
+    {
+      "id": "service:Dockerfile:python",
+      "type": "service",
+      "name": "python",
+      "filePath": "Dockerfile",
+      "summary": "Container build stage based on the python:3.11-slim image exposing port 7860, where dependencies are installed and the Shiny dashboard is launched.",
+      "tags": [
+        "containerization",
+        "deployment",
+        "python",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Top-level project documentation for the Hanoi Air Quality Pulse Shiny dashboard, covering project status, dashboard tabs (Overview, Districts, History, Forecast), data sources, forecasting approach, architecture tree, and local run/test/deploy instructions.",
+      "tags": [
+        "documentation",
+        "entry-point",
+        "overview",
+        "architecture"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:DEPLOYMENT.md",
+      "type": "document",
+      "name": "DEPLOYMENT.md",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Operational deployment guide covering shinyapps.io setup and redeploy commands, AQICN realtime token handling, and the 24/7 realtime history crawler backed by a Hugging Face dataset.",
+      "tags": [
+        "documentation",
+        "deployment",
+        "operations",
+        "ci-cd"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:run_slurm_realtime_crawler.sh",
+      "type": "file",
+      "name": "run_slurm_realtime_crawler.sh",
+      "filePath": "run_slurm_realtime_crawler.sh",
+      "summary": "SLURM batch job script that prepares log/runtime directories, loads the Hugging Face token, and launches the realtime AQI history crawler (collect_realtime_history.py) on a 10-minute interval for up to 168 hours, syncing results to a Hugging Face dataset.",
+      "tags": [
+        "script",
+        "ci-cd",
+        "data-pipeline",
+        "deployment",
+        "shell"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Bash SLURM batch script using #SBATCH directives and set -euo pipefail; resolves the HF token from an env var or hf_token.txt fallback before invoking the Python crawler."
+    },
+    {
+      "id": "config:dashboard/requirements.txt",
+      "type": "config",
+      "name": "requirements.txt",
+      "filePath": "dashboard/requirements.txt",
+      "summary": "Python dependency manifest pinning the Shiny dashboard's runtime libraries: shiny for the web app, pandas/numpy/pyarrow for data handling, plotly for charts, scikit-learn/scipy/joblib for the forecasting model, and requests/huggingface_hub for fetching data and model artifacts.",
+      "tags": [
+        "configuration",
+        "dependencies",
+        "python",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/styles.css",
+      "type": "file",
+      "name": "styles.css",
+      "filePath": "dashboard/styles.css",
+      "summary": "Comprehensive dark-theme stylesheet for the Hanoi Air Quality Pulse Shiny dashboard, defining CSS custom-property design tokens (colors, AQI category palette, radii, shadows), layout, cards, and component styling across roughly 2,200 lines.",
+      "tags": [
+        "stylesheet",
+        "css",
+        "theming",
+        "ui",
+        "design-tokens"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses CSS custom properties under :root as a design-token system, including a dedicated AQI category color scale, plus an external Google Fonts @import for the Inter typeface."
+    },
+    {
+      "id": "document:dashboard/walkthrough.md",
+      "type": "document",
+      "name": "walkthrough.md",
+      "filePath": "dashboard/walkthrough.md",
+      "summary": "Live-demo walkthrough script for the dashboard, covering a pre-demo checklist, a six-stage main demo path (Overview, Districts, History, Forecast), a short technical explanation, a rubric evidence checklist, and backup talking points.",
+      "tags": [
+        "documentation",
+        "walkthrough",
+        "demo",
+        "presentation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.understand-anything/.understandignore",
+      "type": "config",
+      "name": ".understandignore",
+      "filePath": ".understand-anything/.understandignore",
+      "summary": "Tooling metadata file listing path patterns the Understand-Anything analyzer should exclude when scanning this project.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "ignore-list"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:dashboard/.python-version",
+      "type": "config",
+      "name": ".python-version",
+      "filePath": "dashboard/.python-version",
+      "summary": "Pins the Python interpreter version used by the dashboard (consumed by pyenv/uv) to ensure a reproducible runtime.",
+      "tags": [
+        "configuration",
+        "python",
+        "build-system",
+        "versioning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/data/hanoi_districts.geojson",
+      "type": "table",
+      "name": "hanoi_districts.geojson (dashboard/data)",
+      "filePath": "dashboard/data/hanoi_districts.geojson",
+      "summary": "District-boundary polygon dataset (GeoJSON) for Hanoi used to render the dashboard's choropleth maps.",
+      "tags": [
+        "data",
+        "geojson",
+        "geospatial",
+        "district-boundaries"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:data/hanoi_districts.geojson",
+      "type": "table",
+      "name": "hanoi_districts.geojson (data)",
+      "filePath": "data/hanoi_districts.geojson",
+      "summary": "Project-root district-boundary polygon dataset (GeoJSON) for Hanoi, produced by fetch_geojson.py and used as the source of map geometry.",
+      "tags": [
+        "data",
+        "geojson",
+        "geospatial",
+        "district-boundaries"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/aqi_horizon_1h_cleaned.joblib",
+      "type": "table",
+      "name": "aqi_horizon_1h_cleaned.joblib",
+      "filePath": "dashboard/models/aqi_horizon_1h_cleaned.joblib",
+      "summary": "Trained scikit-learn AQI forecast model artifact for the 1-hour horizon (cleaned-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "aqi",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/aqi_horizon_1h.joblib",
+      "type": "table",
+      "name": "aqi_horizon_1h.joblib",
+      "filePath": "dashboard/models/aqi_horizon_1h.joblib",
+      "summary": "Trained scikit-learn AQI forecast model artifact for the 1-hour horizon (raw-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "aqi",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/aqi_horizon_24h_cleaned.joblib",
+      "type": "table",
+      "name": "aqi_horizon_24h_cleaned.joblib",
+      "filePath": "dashboard/models/aqi_horizon_24h_cleaned.joblib",
+      "summary": "Trained scikit-learn AQI forecast model artifact for the 24-hour horizon (cleaned-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "aqi",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/aqi_horizon_24h.joblib",
+      "type": "table",
+      "name": "aqi_horizon_24h.joblib",
+      "filePath": "dashboard/models/aqi_horizon_24h.joblib",
+      "summary": "Trained scikit-learn AQI forecast model artifact for the 24-hour horizon (raw-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "aqi",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/aqi_horizon_6h_cleaned.joblib",
+      "type": "table",
+      "name": "aqi_horizon_6h_cleaned.joblib",
+      "filePath": "dashboard/models/aqi_horizon_6h_cleaned.joblib",
+      "summary": "Trained scikit-learn AQI forecast model artifact for the 6-hour horizon (cleaned-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "aqi",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/aqi_horizon_6h.joblib",
+      "type": "table",
+      "name": "aqi_horizon_6h.joblib",
+      "filePath": "dashboard/models/aqi_horizon_6h.joblib",
+      "summary": "Trained scikit-learn AQI forecast model artifact for the 6-hour horizon (raw-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "aqi",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/pm25_horizon_1h_cleaned.joblib",
+      "type": "table",
+      "name": "pm25_horizon_1h_cleaned.joblib",
+      "filePath": "dashboard/models/pm25_horizon_1h_cleaned.joblib",
+      "summary": "Trained scikit-learn PM2.5 forecast model artifact for the 1-hour horizon (cleaned-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "pm25",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/pm25_horizon_1h.joblib",
+      "type": "table",
+      "name": "pm25_horizon_1h.joblib",
+      "filePath": "dashboard/models/pm25_horizon_1h.joblib",
+      "summary": "Trained scikit-learn PM2.5 forecast model artifact for the 1-hour horizon (raw-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "pm25",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/pm25_horizon_24h_cleaned.joblib",
+      "type": "table",
+      "name": "pm25_horizon_24h_cleaned.joblib",
+      "filePath": "dashboard/models/pm25_horizon_24h_cleaned.joblib",
+      "summary": "Trained scikit-learn PM2.5 forecast model artifact for the 24-hour horizon (cleaned-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "pm25",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/pm25_horizon_24h.joblib",
+      "type": "table",
+      "name": "pm25_horizon_24h.joblib",
+      "filePath": "dashboard/models/pm25_horizon_24h.joblib",
+      "summary": "Trained scikit-learn PM2.5 forecast model artifact for the 24-hour horizon (raw-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "pm25",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/pm25_horizon_6h_cleaned.joblib",
+      "type": "table",
+      "name": "pm25_horizon_6h_cleaned.joblib",
+      "filePath": "dashboard/models/pm25_horizon_6h_cleaned.joblib",
+      "summary": "Trained scikit-learn PM2.5 forecast model artifact for the 6-hour horizon (cleaned-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "pm25",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/models/pm25_horizon_6h.joblib",
+      "type": "table",
+      "name": "pm25_horizon_6h.joblib",
+      "filePath": "dashboard/models/pm25_horizon_6h.joblib",
+      "summary": "Trained scikit-learn PM2.5 forecast model artifact for the 6-hour horizon (raw-feature variant), serialized with joblib.",
+      "tags": [
+        "data",
+        "model-artifact",
+        "forecast",
+        "pm25",
+        "machine-learning"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/processed/hanoi_city_hourly.parquet",
+      "type": "table",
+      "name": "hanoi_city_hourly.parquet",
+      "filePath": "dashboard/processed/hanoi_city_hourly.parquet",
+      "summary": "Processed city-level hourly air-quality dataset for Hanoi (Parquet) loaded by the dashboard at startup; produced by preprocess.py.",
+      "tags": [
+        "data",
+        "parquet",
+        "dataset",
+        "hourly",
+        "air-quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:dashboard/processed/hanoi_district_daily.parquet",
+      "type": "table",
+      "name": "hanoi_district_daily.parquet",
+      "filePath": "dashboard/processed/hanoi_district_daily.parquet",
+      "summary": "Processed district-level daily air-quality dataset for Hanoi (Parquet) loaded by the dashboard for choropleth maps; produced by preprocess.py.",
+      "tags": [
+        "data",
+        "parquet",
+        "dataset",
+        "daily",
+        "air-quality"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/scripts/fetch_geojson.py",
+      "type": "file",
+      "name": "fetch_geojson.py",
+      "filePath": "dashboard/scripts/fetch_geojson.py",
+      "summary": "Standalone ETL script that downloads Vietnam administrative boundaries, filters to Hanoi districts with name normalization, and writes a compact hanoi_districts.geojson.",
+      "tags": [
+        "script",
+        "data-pipeline",
+        "geospatial",
+        "etl",
+        "geojson"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Uses requests for HTTP fetch with an HDX fallback URL and pathlib for output paths; pure-function helpers handle district name matching."
+    },
+    {
+      "id": "function:dashboard/scripts/fetch_geojson.py:fetch_geojson",
+      "type": "function",
+      "name": "fetch_geojson",
+      "filePath": "dashboard/scripts/fetch_geojson.py",
+      "lineRange": [
+        83,
+        102
+      ],
+      "summary": "Fetches the raw Vietnam administrative GeoJSON over HTTP, trying a primary API and falling back to the HDX dataset URL on failure.",
+      "tags": [
+        "data-fetch",
+        "http",
+        "geojson",
+        "etl"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/fetch_geojson.py:filter_hanoi",
+      "type": "function",
+      "name": "filter_hanoi",
+      "filePath": "dashboard/scripts/fetch_geojson.py",
+      "lineRange": [
+        105,
+        157
+      ],
+      "summary": "Filters the national GeoJSON down to Hanoi district features, applying prefix stripping and a name map to reconcile boundary names with dataset districts.",
+      "tags": [
+        "data-transformation",
+        "filtering",
+        "geospatial",
+        "name-matching"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/scripts/fetch_geojson.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "dashboard/scripts/fetch_geojson.py",
+      "lineRange": [
+        160,
+        171
+      ],
+      "summary": "Entry point that orchestrates fetch and filter, then serializes the Hanoi district features to data/hanoi_districts.geojson.",
+      "tags": [
+        "entry-point",
+        "orchestration",
+        "etl"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:dashboard/scripts/preprocess.py",
+      "type": "file",
+      "name": "preprocess.py",
+      "filePath": "dashboard/scripts/preprocess.py",
+      "summary": "Data preparation script that reads raw CSV air-quality sources and builds the city-hourly, district-daily, district-hourly, and model-feature Parquet datasets consumed by the dashboard and model training.",
+      "tags": [
+        "script",
+        "data-pipeline",
+        "etl",
+        "preprocessing",
+        "feature-engineering"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Heavy pandas usage: chunked CSV reads, column normalization, datetime parsing, and lag/rolling feature engineering for the forecast models."
+    },
+    {
+      "id": "function:dashboard/scripts/preprocess.py:build_city_hourly",
+      "type": "function",
+      "name": "build_city_hourly",
+      "filePath": "dashboard/scripts/preprocess.py",
+      "lineRange": [
+        30,
+        53
+      ],
+      "summary": "Reads and concatenates per-source hourly CSVs into a normalized, time-sorted city-level hourly air-quality DataFrame with derived day/month fields.",
+      "tags": [
+        "data-transformation",
+        "pandas",
+        "aggregation",
+        "hourly"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/preprocess.py:build_district_daily",
+      "type": "function",
+      "name": "build_district_daily",
+      "filePath": "dashboard/scripts/preprocess.py",
+      "lineRange": [
+        58,
+        72
+      ],
+      "summary": "Reads the daily district CSV, filters to Hanoi, parses timestamps and numeric pollutant columns, and returns a cleaned district-daily DataFrame.",
+      "tags": [
+        "data-transformation",
+        "pandas",
+        "filtering",
+        "daily"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/preprocess.py:build_district_hourly",
+      "type": "function",
+      "name": "build_district_hourly",
+      "filePath": "dashboard/scripts/preprocess.py",
+      "lineRange": [
+        77,
+        125
+      ],
+      "summary": "Chunk-reads the large district hourly CSV, filters to Hanoi, renames and normalizes pollutant columns, and assembles a cleaned district-hourly DataFrame.",
+      "tags": [
+        "data-transformation",
+        "pandas",
+        "chunked-read",
+        "hourly"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:dashboard/scripts/preprocess.py:build_model_features",
+      "type": "function",
+      "name": "build_model_features",
+      "filePath": "dashboard/scripts/preprocess.py",
+      "lineRange": [
+        130,
+        159
+      ],
+      "summary": "Engineers model input features from the city-hourly data, adding weekend flags plus lag and rolling-window (mean/max) features for the forecast models.",
+      "tags": [
+        "feature-engineering",
+        "pandas",
+        "machine-learning",
+        "time-series"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:dashboard/scripts/preprocess.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "dashboard/scripts/preprocess.py",
+      "lineRange": [
+        164,
+        192
+      ],
+      "summary": "Entry point that builds each dataset and writes the city-hourly, district-daily, district-hourly, and model-feature Parquet files to the processed output directory.",
+      "tags": [
+        "entry-point",
+        "orchestration",
+        "etl"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:dashboard/src/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "dashboard/src/__init__.py",
+      "summary": "Package initializer marking dashboard/src as a Python package; contains no executable logic.",
+      "tags": [
+        "entry-point",
+        "package-init",
+        "python"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "file:dashboard/src/anomaly.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "file:dashboard/src/model.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/scripts/train_models.py",
+      "target": "file:dashboard/src/data.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/scripts/train_models.py",
+      "target": "file:dashboard/src/model.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "file:dashboard/src/anomaly.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "file:dashboard/src/anomaly.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_anomaly.py",
+      "target": "file:dashboard/src/anomaly.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_anomaly.py",
+      "target": "file:dashboard/src/data.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_data.py",
+      "target": "file:dashboard/src/data.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_data.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_model.py",
+      "target": "file:dashboard/src/data.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_model.py",
+      "target": "file:dashboard/src/model.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "function:dashboard/modules/mod_forecast.py:_latest_feature_row",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "function:dashboard/modules/mod_forecast.py:_lexce_owl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "function:dashboard/modules/mod_forecast.py:forecast_ui",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "function:dashboard/modules/mod_forecast.py:forecast_server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "function:dashboard/modules/mod_forecast.py:forecast_ui",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_forecast.py",
+      "target": "function:dashboard/modules/mod_forecast.py:forecast_server",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/scripts/train_models.py",
+      "target": "function:dashboard/scripts/train_models.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/train_models.py",
+      "target": "function:dashboard/scripts/train_models.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "class:dashboard/src/anomaly.py:QualitySummary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "function:dashboard/src/anomaly.py:apply_city_quality_flags",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "function:dashboard/src/anomaly.py:metric_col_for_mode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "function:dashboard/src/anomaly.py:quality_summary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "class:dashboard/src/anomaly.py:QualitySummary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "function:dashboard/src/anomaly.py:apply_city_quality_flags",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "function:dashboard/src/anomaly.py:metric_col_for_mode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "function:dashboard/src/anomaly.py:quality_summary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "class:dashboard/src/data.py:DataBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "function:dashboard/src/data.py:load_city_hourly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "function:dashboard/src/data.py:load_district_daily",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "function:dashboard/src/data.py:load_bundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "class:dashboard/src/data.py:DataBundle",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "function:dashboard/src/data.py:load_city_hourly",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "function:dashboard/src/data.py:load_district_daily",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "function:dashboard/src/data.py:load_bundle",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "class:dashboard/src/model.py:ModelArtifacts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:_build_features",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:_compute_permutation_importance",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:train_city_model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:predict_next",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:load_model_artifact",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:save_model_artifact",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "class:dashboard/src/model.py:ModelArtifacts",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:_build_features",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:train_city_model",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:predict_next",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:load_model_artifact",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "function:dashboard/src/model.py:save_model_artifact",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/tests/test_data.py",
+      "target": "class:dashboard/tests/test_data.py:TestAqiCategory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/tests/test_data.py",
+      "target": "class:dashboard/tests/test_data.py:TestLoadBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/tests/test_model.py",
+      "target": "class:dashboard/tests/test_model.py:TestBuildFeatures",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "function:dashboard/src/data.py:load_city_hourly",
+      "target": "function:dashboard/src/anomaly.py:apply_city_quality_flags",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/src/model.py:_build_features",
+      "target": "function:dashboard/src/anomaly.py:metric_col_for_mode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/src/model.py:predict_next",
+      "target": "function:dashboard/src/anomaly.py:metric_col_for_mode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/src/model.py:train_city_model",
+      "target": "function:dashboard/src/model.py:_build_features",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/src/data.py:load_bundle",
+      "target": "function:dashboard/src/data.py:load_city_hourly",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/src/data.py:load_bundle",
+      "target": "function:dashboard/src/data.py:load_district_daily",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/scripts/train_models.py:main",
+      "target": "function:dashboard/src/data.py:load_bundle",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/scripts/train_models.py:main",
+      "target": "function:dashboard/src/model.py:train_city_model",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/scripts/train_models.py:main",
+      "target": "function:dashboard/src/model.py:save_model_artifact",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/modules/mod_forecast.py:forecast_server",
+      "target": "function:dashboard/src/model.py:_build_features",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/modules/mod_forecast.py:_latest_feature_row",
+      "target": "function:dashboard/src/anomaly.py:metric_col_for_mode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/anomaly.py",
+      "target": "file:dashboard/tests/test_anomaly.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "file:dashboard/tests/test_anomaly.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "file:dashboard/tests/test_data.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/src/data.py",
+      "target": "file:dashboard/tests/test_model.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/src/model.py",
+      "target": "file:dashboard/tests/test_model.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/modules/mod_district.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/modules/mod_forecast.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/modules/mod_history.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/modules/mod_overview.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/src/data.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/src/model.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/src/realtime_api.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/__init__.py",
+      "target": "file:dashboard/modules/mod_district.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/__init__.py",
+      "target": "file:dashboard/modules/mod_forecast.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/__init__.py",
+      "target": "file:dashboard/modules/mod_history.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/__init__.py",
+      "target": "file:dashboard/modules/mod_overview.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_history.py",
+      "target": "file:dashboard/src/anomaly.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_history.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "file:dashboard/src/utils.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:snapshot_overrides",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:_snapshot_history_row",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:_trim_realtime_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:_load_remote_realtime_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:load_realtime_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:snapshot_from_realtime_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:stations_from_realtime_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:historical_snapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:_district_3d_geojson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:_district_map_srcdoc",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:_district_2d_figure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:district_ui",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:district_server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_history.py",
+      "target": "function:dashboard/modules/mod_history.py:history_ui",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_history.py",
+      "target": "function:dashboard/modules/mod_history.py:history_server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:_recent_aqi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:_recent_realtime_aqi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:_one_hour_prediction",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:_district_3d_geojson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:_station_3d_rows",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:_deck_map_srcdoc",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:overview_ui",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:overview_server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/utils.py",
+      "target": "function:dashboard/src/utils.py:aqi_advisory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/utils.py",
+      "target": "function:dashboard/src/utils.py:_json_safe_value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:snapshot_overrides",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:load_realtime_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:snapshot_from_realtime_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:stations_from_realtime_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:historical_snapshot",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/app.py",
+      "target": "function:dashboard/app.py:server",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:district_ui",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_district.py",
+      "target": "function:dashboard/modules/mod_district.py:district_server",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_history.py",
+      "target": "function:dashboard/modules/mod_history.py:history_ui",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_history.py",
+      "target": "function:dashboard/modules/mod_history.py:history_server",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:overview_ui",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/modules/mod_overview.py",
+      "target": "function:dashboard/modules/mod_overview.py:overview_server",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/utils.py",
+      "target": "function:dashboard/src/utils.py:aqi_advisory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/modules/mod_overview.py:overview_server",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/modules/mod_district.py:district_server",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/modules/mod_history.py:history_server",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/modules/mod_forecast.py:forecast_server",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/src/model.py:load_model_artifact",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/src/model.py:train_city_model",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/src/model.py:save_model_artifact",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/src/model.py:predict_next",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/src/realtime_api.py:fetch_fresh_waqi_snapshot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/app.py:server",
+      "target": "function:dashboard/src/realtime_api.py:fetch_open_meteo_snapshot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "file:dashboard/src/realtime_api.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/tests/test_realtime_api.py",
+      "target": "file:dashboard/src/realtime_api.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:snapshot_row",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:trim_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:load_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:read_hf_token",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:upload_history_to_hf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:fetch_snapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:collect_once",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:snapshot_row",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/scripts/collect_realtime_history.py",
+      "target": "function:dashboard/scripts/collect_realtime_history.py:collect_once",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:read_aqicn_token",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:_parse_station_time",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:_is_fresh_station",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_waqi_stations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_waqi_station_detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:_station_snapshot_from_detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_fresh_waqi_snapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_open_meteo_snapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:read_aqicn_token",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_waqi_stations",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_fresh_waqi_snapshot",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "function:dashboard/src/realtime_api.py:fetch_open_meteo_snapshot",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/tests/test_realtime_api.py",
+      "target": "class:dashboard/tests/test_realtime_api.py:TestReadAqicnToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/tests/test_realtime_api.py",
+      "target": "class:dashboard/tests/test_realtime_api.py:TestIsFreshStation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/tests/test_realtime_api.py",
+      "target": "class:dashboard/tests/test_realtime_api.py:TestParseStationTime",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "function:dashboard/scripts/collect_realtime_history.py:fetch_snapshot",
+      "target": "function:dashboard/src/realtime_api.py:fetch_fresh_waqi_snapshot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/scripts/collect_realtime_history.py:fetch_snapshot",
+      "target": "function:dashboard/src/realtime_api.py:fetch_open_meteo_snapshot",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:dashboard/scripts/collect_realtime_history.py:collect_once",
+      "target": "function:dashboard/src/realtime_api.py:read_aqicn_token",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:dashboard/src/realtime_api.py",
+      "target": "file:dashboard/tests/test_realtime_api.py",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "service:Dockerfile",
+      "target": "service:Dockerfile:python",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "service:Dockerfile",
+      "target": "file:dashboard/app.py",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "service:Dockerfile:python",
+      "target": "file:dashboard/app.py",
+      "type": "serves",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "config:.dockerignore",
+      "target": "service:Dockerfile",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "service:Dockerfile",
+      "target": "config:dashboard/requirements.txt",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:dashboard/app.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:dashboard/scripts/collect_realtime_history.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "document:DEPLOYMENT.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:run_slurm_realtime_crawler.sh",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "file:dashboard/app.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "file:dashboard/scripts/collect_realtime_history.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "file:run_slurm_realtime_crawler.sh",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:run_slurm_realtime_crawler.sh",
+      "target": "file:dashboard/scripts/collect_realtime_history.py",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:dashboard/requirements.txt",
+      "target": "file:dashboard/app.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:dashboard/styles.css",
+      "target": "file:dashboard/app.py",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:dashboard/walkthrough.md",
+      "target": "file:dashboard/app.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/scripts/fetch_geojson.py",
+      "target": "function:dashboard/scripts/fetch_geojson.py:fetch_geojson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/fetch_geojson.py",
+      "target": "function:dashboard/scripts/fetch_geojson.py:filter_hanoi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/fetch_geojson.py",
+      "target": "function:dashboard/scripts/fetch_geojson.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "function:dashboard/scripts/preprocess.py:build_city_hourly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "function:dashboard/scripts/preprocess.py:build_district_daily",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "function:dashboard/scripts/preprocess.py:build_district_hourly",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "function:dashboard/scripts/preprocess.py:build_model_features",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "function:dashboard/scripts/preprocess.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:dashboard/scripts/fetch_geojson.py",
+      "target": "table:data/hanoi_districts.geojson",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "table:dashboard/processed/hanoi_city_hourly.parquet",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:dashboard/scripts/preprocess.py",
+      "target": "table:dashboard/processed/hanoi_district_daily.parquet",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:presentation",
+      "name": "Presentation Layer",
+      "description": "The Shiny application entry point, the four feature modules (overview, district, history, forecast) that build the dashboard tabs and realtime polling, and the dark-theme stylesheet.",
+      "nodeIds": [
+        "file:dashboard/app.py",
+        "file:dashboard/modules/__init__.py",
+        "file:dashboard/modules/mod_overview.py",
+        "file:dashboard/modules/mod_district.py",
+        "file:dashboard/modules/mod_history.py",
+        "file:dashboard/modules/mod_forecast.py",
+        "file:dashboard/styles.css"
+      ]
+    },
+    {
+      "id": "layer:core",
+      "name": "Core Domain Library",
+      "description": "The reusable src/ library that loads parquet/CSV datasets, trains and runs the AQI/PM2.5 forecast models, flags data-quality anomalies, fetches live WAQI/Open-Meteo readings, and provides shared AQI helpers consumed by every module.",
+      "nodeIds": [
+        "file:dashboard/src/data.py",
+        "file:dashboard/src/model.py",
+        "file:dashboard/src/anomaly.py",
+        "file:dashboard/src/realtime_api.py",
+        "file:dashboard/src/utils.py",
+        "file:dashboard/src/__init__.py"
+      ]
+    },
+    {
+      "id": "layer:data-pipeline",
+      "name": "Data Pipeline & Jobs",
+      "description": "Offline ETL and batch jobs that fetch district GeoJSON, preprocess raw CSVs into parquet datasets, train and persist model artifacts, and run the SLURM realtime-history crawler that syncs to Hugging Face.",
+      "nodeIds": [
+        "file:dashboard/scripts/preprocess.py",
+        "file:dashboard/scripts/train_models.py",
+        "file:dashboard/scripts/fetch_geojson.py",
+        "file:dashboard/scripts/collect_realtime_history.py",
+        "file:run_slurm_realtime_crawler.sh"
+      ]
+    },
+    {
+      "id": "layer:tests",
+      "name": "Tests",
+      "description": "Unit tests covering the data loader, forecast model, anomaly detection, and realtime API helpers in the core library.",
+      "nodeIds": [
+        "file:dashboard/tests/test_data.py",
+        "file:dashboard/tests/test_model.py",
+        "file:dashboard/tests/test_anomaly.py",
+        "file:dashboard/tests/test_realtime_api.py"
+      ]
+    },
+    {
+      "id": "layer:data-assets",
+      "name": "Data Assets",
+      "description": "Static and generated data artifacts: Hanoi district boundary GeoJSON, processed city-hourly and district-daily parquet datasets, and the serialized scikit-learn AQI/PM2.5 forecast model files.",
+      "nodeIds": [
+        "table:data/hanoi_districts.geojson",
+        "table:dashboard/data/hanoi_districts.geojson",
+        "table:dashboard/processed/hanoi_city_hourly.parquet",
+        "table:dashboard/processed/hanoi_district_daily.parquet",
+        "table:dashboard/models/aqi_horizon_1h.joblib",
+        "table:dashboard/models/aqi_horizon_1h_cleaned.joblib",
+        "table:dashboard/models/aqi_horizon_6h.joblib",
+        "table:dashboard/models/aqi_horizon_6h_cleaned.joblib",
+        "table:dashboard/models/aqi_horizon_24h.joblib",
+        "table:dashboard/models/aqi_horizon_24h_cleaned.joblib",
+        "table:dashboard/models/pm25_horizon_1h.joblib",
+        "table:dashboard/models/pm25_horizon_1h_cleaned.joblib",
+        "table:dashboard/models/pm25_horizon_6h.joblib",
+        "table:dashboard/models/pm25_horizon_6h_cleaned.joblib",
+        "table:dashboard/models/pm25_horizon_24h.joblib",
+        "table:dashboard/models/pm25_horizon_24h_cleaned.joblib"
+      ]
+    },
+    {
+      "id": "layer:infrastructure",
+      "name": "Infrastructure & Config",
+      "description": "Containerization and project configuration: the Dockerfile and its build stage, the Docker build-context ignore list, the pinned pip requirements, the Python version pin, and the analyzer ignore file.",
+      "nodeIds": [
+        "service:Dockerfile",
+        "service:Dockerfile:python",
+        "config:.dockerignore",
+        "config:dashboard/requirements.txt",
+        "config:dashboard/.python-version",
+        "config:.understand-anything/.understandignore"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation",
+      "description": "Project and operations documentation: the top-level README, the shinyapps.io/crawler deployment guide, and the live-demo walkthrough script.",
+      "nodeIds": [
+        "document:README.md",
+        "document:DEPLOYMENT.md",
+        "document:dashboard/walkthrough.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Project Overview",
+      "description": "Start with the README to understand what Hanoi Air Quality Pulse is: a deployed Python Shiny dashboard for exploring Hanoi air pollution across space, time, and short-term forecasts. It lays out the four dashboard tabs (Overview, Districts, History, Forecast), the data sources, the forecasting approach, and the project's architecture tree. Read it first to get the mental map the rest of this tour fills in with real code.",
+      "nodeIds": [
+        "document:README.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Application Entry Point",
+      "description": "app.py is the heart of the runtime and the most depended-upon file in the project. It builds the Shiny UI, wires the four feature modules together, and runs the server-side polling loop that fetches live WAQI/Open-Meteo snapshots and persists a rolling realtime history. Everything else in the tour is reached, directly or indirectly, from here.",
+      "nodeIds": [
+        "file:dashboard/app.py",
+        "file:dashboard/modules/__init__.py"
+      ],
+      "languageLesson": "Shiny for Python splits each feature into a paired ui() function (layout) and server() function (reactive logic). The modules/__init__.py barrel re-exports these pairs so app.py can import all four tabs from one place."
+    },
+    {
+      "order": 3,
+      "title": "Core Data Loading",
+      "description": "Following app.py's imports into the core src/ library, data.py is the foundation: it reads the processed parquet/CSV datasets, normalizes columns, derives AQI fields, and bundles everything into a DataBundle the whole app consumes. Loading city-hourly data also applies the anomaly quality flags from the next step, so this is where clean, dashboard-ready data is born.",
+      "nodeIds": [
+        "file:dashboard/src/data.py"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "Data Quality & Anomaly Detection",
+      "description": "anomaly.py is a deep dependency reached from data.py and model.py, and it underpins data trustworthiness. It flags spikes, stuck-sensor values, and extreme pollution episodes using rolling robust z-scores, then produces cleaned metric columns. This is why the dashboard can show both raw and cleaned readings, and why the History tab can mark anomalies on the timeline.",
+      "nodeIds": [
+        "file:dashboard/src/anomaly.py"
+      ],
+      "languageLesson": "A robust z-score uses the median and median absolute deviation (MAD) instead of mean and standard deviation, so a single huge spike doesn't distort the threshold that's meant to detect it."
+    },
+    {
+      "order": 5,
+      "title": "Forecast Modeling",
+      "description": "model.py builds the predictive core promised by the README's forecasting question. It engineers lag and rolling features, trains and selects gradient-boosting regressors per target (AQI/PM2.5) and horizon, computes feature importance, and persists/loads model artifacts. The Overview and Forecast tabs both call into this layer to turn recent signals into short-term predictions.",
+      "nodeIds": [
+        "file:dashboard/src/model.py"
+      ],
+      "languageLesson": "Lag and rolling-window features turn a time series into a supervised learning table: each row predicts the next value from recent history, which is what lets a generic regressor like gradient boosting forecast air quality."
+    },
+    {
+      "order": 6,
+      "title": "Realtime API Client & Shared Helpers",
+      "description": "Two more core-library pieces complete the foundation. realtime_api.py is the client that fetches live AQICN/WAQI station readings and Open-Meteo weather snapshots, including freshness filtering so stale stations are dropped. utils.py is the most widely imported helper module, providing AQI category classification, color/advisory lookups, and Plotly JSON sanitization used by every feature module.",
+      "nodeIds": [
+        "file:dashboard/src/realtime_api.py",
+        "file:dashboard/src/utils.py"
+      ]
+    },
+    {
+      "order": 7,
+      "title": "Overview Tab",
+      "description": "Now we climb back up to the presentation layer. The Overview module is the landing tab: it presents the live citywide AQI snapshot, a 3D deck.gl district/station map, a near-term prediction, and headline metric cards plus the 'Lexce' AQI buddy. It composes the data, model, realtime, and utils layers you just toured into the first thing a visitor sees.",
+      "nodeIds": [
+        "file:dashboard/modules/mod_overview.py"
+      ]
+    },
+    {
+      "order": 8,
+      "title": "Districts & History Tabs",
+      "description": "These two spatial-and-temporal tabs answer the README's first question: how does pollution vary across districts and time? mod_district.py renders 2D/3D choropleth maps of all 30 districts with year/month filters, selection presets, and ranking tables. mod_history.py renders long-term trends, seasonal breakdowns, and AQI-category matrices, layering on the anomaly quality flags from Step 4.",
+      "nodeIds": [
+        "file:dashboard/modules/mod_district.py",
+        "file:dashboard/modules/mod_history.py"
+      ]
+    },
+    {
+      "order": 9,
+      "title": "Forecast Tab",
+      "description": "The Forecast module is the richest consumer of the modeling layer, rendering the prediction hero, AQI gauge, a PCA feature-space scatter, model accuracy, a feature-importance radar, and a validation timeline. It imports model.py and anomaly.py directly, making it the visual payoff of the predictive work from Step 5.",
+      "nodeIds": [
+        "file:dashboard/modules/mod_forecast.py"
+      ]
+    },
+    {
+      "order": 10,
+      "title": "Offline Data Pipeline",
+      "description": "Stepping outside the running app, these batch scripts produce the assets the dashboard depends on. fetch_geojson.py downloads and filters Hanoi district boundaries; preprocess.py turns raw CSVs into the city-hourly, district-daily, and model-feature parquet datasets; train_models.py loads the data bundle and trains/saves the forecast model artifacts. This is the ETL-and-train half of the project that runs before deployment.",
+      "nodeIds": [
+        "file:dashboard/scripts/preprocess.py",
+        "file:dashboard/scripts/fetch_geojson.py",
+        "file:dashboard/scripts/train_models.py"
+      ]
+    },
+    {
+      "order": 11,
+      "title": "SLURM Realtime Crawler",
+      "description": "This is the project's signature operational trick from the README: even with no open session, the deployed app shows fresh history. collect_realtime_history.py polls WAQI/Open-Meteo and appends rows to a rolling history CSV, then publishes it to a Hugging Face Dataset. The SLURM shell script schedules that crawler on a department server every 10 minutes for up to 168 hours.",
+      "nodeIds": [
+        "file:dashboard/scripts/collect_realtime_history.py",
+        "file:run_slurm_realtime_crawler.sh"
+      ]
+    },
+    {
+      "order": 12,
+      "title": "Data Assets",
+      "description": "These are the static and generated artifacts the code above reads at runtime: the Hanoi district boundary GeoJSON that powers every choropleth map, the processed city-hourly and district-daily parquet datasets, and a representative trained model artifact. Connecting them back to the code makes the data-flow concrete: preprocess.py writes the parquet, train_models.py writes the joblib, and the dashboard loads both at startup.",
+      "nodeIds": [
+        "table:dashboard/processed/hanoi_city_hourly.parquet",
+        "table:dashboard/processed/hanoi_district_daily.parquet",
+        "table:dashboard/data/hanoi_districts.geojson",
+        "table:dashboard/models/aqi_horizon_1h_cleaned.joblib"
+      ]
+    },
+    {
+      "order": 13,
+      "title": "Containerization & Deployment",
+      "description": "Finally, the infrastructure that ships everything. The Dockerfile builds on python:3.11-slim, installs the pinned requirements, and runs the Shiny app on port 7860, while .dockerignore keeps the image lean by excluding raw data yet whitelisting the GeoJSON and parquet the app needs. DEPLOYMENT.md ties it together with the shinyapps.io redeploy commands, AQICN token handling, and the Hugging Face-backed crawler from Step 11.",
+      "nodeIds": [
+        "service:Dockerfile",
+        "config:.dockerignore",
+        "config:dashboard/requirements.txt",
+        "document:DEPLOYMENT.md"
+      ],
+      "languageLesson": "A .dockerignore both shrinks the build context and acts as an allowlist: deny-everything patterns combined with negated (!) whitelist patterns let you copy only the specific data files the runtime needs into the image."
+    }
+  ]
+}
