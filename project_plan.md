@@ -1,272 +1,279 @@
-# Hanoi Air Quality Pulse - Proposal and Final Product Plan
+# Hanoi Air Quality Pulse - Final Project Plan and Report Notes
 
-## 1. One-Sentence Project Idea
+This document summarizes the final dashboard status and gives material that can be reused in the final report and slides.
 
-**Hanoi Air Quality Pulse** is an interactive Python Shiny dashboard that helps users explore Hanoi air pollution across time, districts, pollutants, weather conditions, realtime stations, and short-term AQI/PM2.5 forecasts.
+## One-Sentence Summary
 
-Main question:
+Hanoi Air Quality Pulse is a deployed Python Shiny dashboard that combines realtime AQICN station monitoring, district-level spatial analysis, historical anomaly-aware exploration, and short-term AQI / PM2.5 forecasting for Hanoi.
 
-**How does air pollution vary across Hanoi districts and time, and can recent air/weather signals help predict short-term AQI risk?**
+## Final Project Question
 
-## 2. Proposal Status for 18/05
-
-For the proposal, we are not submitting only a sketch. We already have a working dashboard prototype that can be used as a high-fidelity wireframe.
-
-Current dashboard tabs:
-
-1. **Overview**
-   - Realtime/historical AQI hero.
-   - AQI category and weather summary.
-   - Day vs night AQI chart.
-   - Realtime station map.
-   - Lexce mascot AQI buddy whose visual mood changes with AQI risk.
-   - District snapshot mini-cards.
-
-2. **Districts**
-   - Hanoi choropleth map for 30 districts.
-   - Multi-select district checkbox picker with Select all / Clear.
-   - Selected districts stay colored by AQI; unselected districts become dark/muted.
-   - Ranking table only shows selected districts and can scroll.
-   - Monthly trend supports many districts with softer lines and highlighted high-AQI districts.
-   - Pollutant breakdown for selected districts.
-
-3. **History**
-   - Calendar-style AQI/PM2.5/PM10 heatmap.
-   - Multi-year comparison.
-   - AQI category distribution and annual/seasonal patterns.
-
-4. **Forecast**
-   - Forecast horizon controls: 1h, 6h, 24h.
-   - Target controls: AQI or PM2.5.
-   - Predicted risk card and gauge.
-   - Model vs no-change baseline error comparison.
-   - Feature importance.
-   - Validation chart: predictions vs actual values.
-
-This is enough for the proposal demo and wireframe requirement. The final version will improve deployment, UI polish, model interpretation, and report-level findings.
-
-## 3. Active Datasets
-
-Only these datasets are part of the current implementation.
-
-### Dataset A - Hanoi District Air Quality
-
-Source:
-`hau100416/vietnamese-air-quality-dataset`
-
-Local path:
-`/vol/biomedic3/gn425/HaNoiAQI/data/hau100416__vietnamese-air-quality-dataset`
-
-Files:
-- `aqi_northVN_daily.csv`
-- `northVN_dataAIR.csv`
-
-Use in dashboard:
-- District choropleth map.
-- District ranking table.
-- District monthly trend.
-- Pollutant breakdown by selected districts.
-- Overview district cards.
-
-Audited facts:
-- Hanoi district coverage: 30 districts.
-- Hourly Hanoi subset: 920,160 rows.
-- District daily processed output: `dashboard/processed/hanoi_district_daily.parquet`.
-- District hourly processed output: `dashboard/processed/hanoi_district_hourly.parquet`.
-- Time range in hourly data: 2022-08-04 to 2026-02-01.
-
-### Dataset B - City-Level AQI + Weather for Modeling
-
-Source:
-`phungdinhdat/aqi-in-hanoi-2022-2025`
-
-Local path:
-`/vol/biomedic3/gn425/HaNoiAQI/data/phungdinhdat__aqi-in-hanoi-2022-2025`
-
-Files:
-- `2022.csv`
-- `2023.csv`
-- `2024.csv`
-- `2025.csv`
-
-Use in dashboard:
-- Overview AQI/weather hero.
-- Day/night chart.
-- History page.
-- Forecast model training.
-
-Audited facts:
-- 30,341 hourly rows.
-- Time range: 2022-01-13 to 2025-06-30.
-- Fields include AQI, PM2.5, PM10, CO, NO2, O3, SO2, clouds, precipitation, pressure, humidity, temperature, UV index, and wind speed.
-
-### Spatial Boundary Data
-
-Local path:
-`/vol/biomedic3/gn425/HaNoiAQI/data/hanoi_districts.geojson`
-
-Use:
-- District choropleth boundaries.
-- Name-matched to the 30 district names used in the air-quality dataset.
-
-### Realtime APIs
-
-1. **AQICN/WAQI**
-   - Primary realtime station source.
-   - Reads token from `AQICN_TOKEN` or `aqicn_api_key.md`.
-   - The app filters stale/missing station data where possible.
-
-2. **Open-Meteo**
-   - Fallback for coordinate-based weather/air context when AQICN is unavailable.
-
-## 4. Current Technical Stack
-
-- Python Shiny for the dashboard.
-- Plotly for interactive charts/maps.
-- Pandas and NumPy for preprocessing and aggregation.
-- Scikit-learn for forecasting models.
-- Joblib for offline model caching.
-- GeoJSON district boundaries for spatial visualization.
-- Custom CSS for dark UI, glass panels, AQI colors, animations, and responsive layout.
-
-Run command:
-
-```bash
-cd /vol/biomedic3/gn425/HaNoiAQI/dashboard
-.venv/bin/shiny run app.py
+```text
+How does air pollution vary across Hanoi districts and time, and can recent air-quality and weather signals support short-term AQI risk prediction?
 ```
 
-## 5. Forecasting Method
+## Final Application Status
 
-Training data:
-- City-level AQI + weather dataset from 2022 to 2025.
+The final dashboard has four tabs:
+
+1. Overview
+   - Realtime AQI hero with source state and weather context.
+   - Realtime AQI History - Last 24 Hours with a 1h forecast extension.
+   - Day/night AQI pattern and 24h PM2.5 exposure card.
+   - Hanoi AQI Map with 3D / 2D modes, realtime station column, and VinUni landmark.
+   - Lexce AQI buddy for accessible risk communication.
+
+2. Districts
+   - District multi-select and quick filters.
+   - Year and month filters.
+   - District AQI Map with 3D / 2D modes, labels, and visible boundary lines.
+   - Ranking heatmap table, selected-district monthly trend, and pollutant breakdown.
+   - Linked filtering across map, table, chart, and summary.
+
+3. History
+   - Pollutant and year controls.
+   - Calendar heatmap, seasonal comparison, category mix, and monthly category matrix.
+   - Show anomaly markers toggle.
+   - Month selector for seasonal comparison.
+
+4. Forecast
+   - AQI / PM2.5 forecasts at 1h, 6h, and 24h horizons.
+   - Realtime current baseline when available.
+   - Forecast risk gauge.
+   - Lexce forecast mood based on predicted AQI.
+   - Key Prediction Drivers radar chart.
+   - Model Learning Space PCA projection.
+   - Backtest and model-vs-baseline error evidence.
+
+## Data Sources
+
+### District-Level Hanoi Air Quality
+
+Source: Kaggle `hau100416/vietnamese-air-quality-dataset`
+
+Use:
+
+- District maps.
+- District ranking heatmap.
+- Monthly trend.
+- Pollutant breakdown.
+
+Audited local facts:
+
+- 30 Hanoi districts.
+- 920,160 hourly Hanoi rows.
+- Time range: 2022-08-04 to 2026-02-01.
+
+### City-Level AQI and Weather
+
+Source: Kaggle `phungdinhdat/aqi-in-hanoi-2022-2025`
+
+Use:
+
+- Overview historical fallback.
+- History charts.
+- Forecast model training and validation.
+
+Audited local facts:
+
+- 30,341 hourly rows.
+- Time range: 2022-01-13 to 2025-06-30.
+- Variables include AQI, PM2.5, PM10, CO, NO2, O3, SO2, temperature, humidity, pressure, precipitation, wind, clouds, and UV index.
+
+### Spatial Boundaries
+
+Source: `data/hanoi_districts.geojson`
+
+Use:
+
+- 2D and 3D district geometry.
+- Name-matched spatial joins for the 30 districts.
+
+### Realtime Sources
+
+Primary:
+
+- AQICN / WAQI station observations.
+
+Persistence layer:
+
+- Department-server SLURM crawler.
+- Hugging Face Dataset `MountainRiver/hanoi-aqi-realtime-history`.
+- `realtime_history.csv`, updated by crawler approximately every 10 minutes.
+
+Fallback:
+
+- Open-Meteo and cleaned historical context when live station fields are unavailable.
+
+## Technical Stack
+
+- Python Shiny for the web app.
+- Plotly for charts and maps.
+- Pandas / NumPy for data processing.
+- Parquet for compact processed data.
+- scikit-learn for forecasting.
+- Joblib for cached model artifacts.
+- GeoJSON for district boundaries.
+- SLURM job for long-running realtime collection.
+- Hugging Face Dataset for lightweight realtime history persistence.
+- shinyapps.io for final deployment.
+
+## Forecasting Method
 
 Targets:
-- Primary: AQI.
-- Secondary: PM2.5.
 
-Forecast horizons:
+- AQI.
+- PM2.5.
+
+Horizons:
+
 - 1 hour.
 - 6 hours.
 - 24 hours.
 
 Features:
-- Current pollutants: AQI, PM2.5, PM10, CO, NO2, O3, SO2.
-- Weather: temperature, humidity, pressure, precipitation, clouds, wind speed, UV index.
-- Time features: hour, day of week, month, weekend flag.
+
+- Current pollutants.
+- Weather variables.
+- Time features: hour, day of week, month, weekend indicator.
 - Lag features: 1h, 6h, 24h.
-- Rolling features: 3h, 6h, 24h mean/max.
+- Rolling features: 3h, 6h, 24h mean and max.
 
-Models:
-- Histogram Gradient Boosting variants.
-- Model selection based on chronological validation MAE.
-- Baseline: persistence/no-change forecast.
+Model:
 
-Current model cache:
-- `dashboard/models/aqi_horizon_1h.joblib`
-- `dashboard/models/aqi_horizon_6h.joblib`
-- `dashboard/models/aqi_horizon_24h.joblib`
-- `dashboard/models/pm25_horizon_1h.joblib`
-- `dashboard/models/pm25_horizon_6h.joblib`
-- `dashboard/models/pm25_horizon_24h.joblib`
+- scikit-learn `HistGradientBoostingRegressor`.
+- Chronological validation split.
+- Persistence / no-change baseline.
+- Cached `.joblib` artifacts for reliable deployment.
 
-Important framing for presentation:
-- This is a short-term risk forecast, not a perfect sensor simulator.
-- The model is explained visually using error comparison, feature importance, and validation plots.
+Interpretability views:
 
-## 6. Wireframe Sketch Plan
+- Forecast card and risk gauge.
+- Radar chart for key drivers.
+- PCA learning-space chart for regression feature space.
+- Backtest predicted-vs-observed chart.
+- Model-vs-baseline error chart.
 
-Because the dashboard already runs, the wireframe can be a PowerPoint/draw.io layout based on screenshots. Annotate each screenshot with arrows and short labels.
+Important limitation:
 
-Recommended screenshots:
+- Realtime AQICN snapshots may not contain every training feature. The app uses available live features and fills missing values from cleaned historical / fallback context. This is shown transparently in the UI.
 
-1. **Overview full page**
-   - Annotate: realtime AQI card, weather card, AQI scale, day/night chart, station map, Lexce mascot.
-   - Interaction notes: realtime source updates AQI/weather; station map shows live AQICN stations; Lexce changes mood by AQI risk.
+## Data Quality and Anomaly Handling
 
-2. **Districts tab**
-   - Annotate: district checkbox picker, choropleth map, muted unselected districts, selected-district ranking table.
-   - Interaction notes: Select all/Clear; ticking districts updates map, ranking, monthly trend, pollutant breakdown.
+Final dashboard uses the cleaned, anomaly-aware series for production views and forecasting.
 
-3. **History tab**
-   - Annotate: pollutant/year controls, calendar heatmap, multi-year comparison, category distribution.
-   - Interaction notes: changing pollutant/year changes all historical charts.
+Approach:
 
-4. **Forecast tab**
-   - Annotate: horizon/target controls, prediction card, gauge, model-vs-baseline error chart, feature importance, validation plot.
-   - Interaction notes: horizon/target controls change model output and diagnostics.
+- Physical plausibility checks.
+- Rolling median / MAD-style robust anomaly detection.
+- Separation between likely real pollution episodes and isolated sensor-like spikes.
+- Show anomaly markers in History so unusual events remain visible rather than silently hidden.
 
-## 7. Five-Minute Proposal Story
+Report framing:
 
-Suggested flow:
+```text
+We clean the series for modeling stability while retaining anomaly visibility for interpretation.
+```
 
-1. **Motivation**
-   - Hanoi AQI is not only a single number. It changes by district, hour, season, pollutant, and weather.
+## Visualization and Interaction Coverage
 
-2. **Data**
-   - Explain district dataset, city weather/AQI dataset, GeoJSON, and realtime APIs.
+Chart types:
 
-3. **Dashboard**
-   - Overview gives public-facing AQI context.
-   - Districts reveals spatial inequality and local hotspots.
-   - History reveals temporal rhythm.
-   - Forecast turns the dashboard into visual analytics, not just reporting.
+- Line / area chart.
+- Calendar heatmap.
+- Ranking heatmap table.
+- 2D map.
+- 3D map.
+- Donut chart.
+- Radar chart.
+- Gauge chart.
+- PCA scatter plot.
+- Backtest / comparison chart.
 
-4. **Technical approach**
-   - Python Shiny + Plotly + Pandas + scikit-learn.
-   - Preprocessed Parquet for speed.
-   - Offline model cache for reliable demo.
+Interactions:
 
-5. **Future work**
-   - Improve final UI background and screenshots.
-   - Add richer model explanation and final findings.
-   - Deploy to shinyapps.io.
-   - Prepare final report and live demo.
+- Page navigation.
+- District multi-select and quick filter buttons.
+- Linked district views.
+- Year and month filters.
+- Pollutant controls.
+- Show anomaly markers toggle.
+- 3D / 2D toggles.
+- Forecast target and horizon controls.
+- PCA color mode.
+- Tooltips.
 
-## 8. Phase 2 Plan After Proposal
+This comfortably satisfies the application rubric requirement of at least 5 charts and at least 3 chart types.
 
-### UI/UX Polish
+## Rubric Mapping
 
-- Replace or improve the Hanoi background image with a wide 21:9 scene.
-- Improve mobile layout and visual consistency.
-- Add clearer loading states and source badges.
-- Refine Lexce mascot messages.
+### 2a. Presentation and Demo
 
-### Data and Model Work
+| Criterion | Evidence to emphasize |
+|---|---|
+| 2.1 Clarity | Tell the story in this order: problem, data, dashboard, interactions, ML, findings, limitations |
+| 2.2 Live demo | Use shinyapps.io; show realtime history, district filtering, anomaly toggle, and forecast controls |
+| 2.3 Technical understanding | Explain Shiny modules, crawler/HF realtime store, cleaned data, model cache, fallback design |
+| 2.4 Q&A | Prepare answers on realtime partial features, PCA meaning, 3D map purpose, and limitations |
+| 2.5 Slides coverage | Include problem, datasets, design, interactions, ML, architecture, findings, lessons |
 
-- Validate AQICN station freshness rules.
-- Add anomaly-aware raw/cleaned data quality modes for historical charts and forecasting.
-- Improve feature names and explanation.
-- Add stronger model comparison if time allows.
-- Export model metrics for final report.
+### 2b. Application
 
-### Final Deliverables
+| Criterion | Evidence in app |
+|---|---|
+| 2.6 Visualization quality | Polished dark UI, modern maps, narrative insight cards, accessible contrast, Lexce |
+| 2.7 Chart requirements | More than 5 charts and more than 3 chart types |
+| 2.8 Interactivity | Linked district filtering, 3D/2D toggles, year/month filters, anomaly toggle, forecast controls |
+| 2.9 Technical complexity | Realtime crawler, HF persistence, Parquet preprocessing, model cache, 3D maps, modular app |
+| 2.10 ML / analytics | Short-term forecasts, radar drivers, PCA learning space, backtest, error comparison |
+| 2.11 Python Shiny | Modular pages, reactive inputs/outputs, cached heavy work |
+| 2.12 Reproducibility | `requirements.txt`, run command, tests, deployment notes |
+| 2.13 Repo/docs | README, deployment guide, slide guide, walkthrough, organized `dashboard/` modules |
+| 2.14 Teamwork | Use commit history and slide/report roles to show balanced contributions |
 
-- Deploy Shiny app.
-- Final report up to 6 pages in LaTeX.
-- Final presentation with live demo.
-- Clean GitHub documentation and reproducible setup.
+### 2c. Report
 
-## 9. Suggested Team Task Allocation
+Recommended six-page structure:
 
-Replace names with actual team members.
+1. Introduction and motivation.
+2. Data sources, preprocessing, and anomaly handling.
+3. Visualization and interaction design.
+4. Realtime architecture and deployment.
+5. Forecasting method and model interpretation.
+6. Findings, limitations, lessons learned, and future work.
 
-- **Member 1: Data + preprocessing**
-  - Dataset documentation, Parquet preprocessing, GeoJSON name matching, data limitations.
+For a complete prose draft, use [final_report_draft.md](final_report_draft.md) and convert it into the final LaTeX format.
 
-- **Member 2: Dashboard UI + wireframe**
-  - Slide design, screenshots, annotated wireframe, visual consistency.
+## Suggested Report Claims
 
-- **Member 3: Visualization + storytelling**
-  - Explain each tab, interaction flow, chart purpose, proposal presentation.
+Use careful wording:
 
-- **Member 4: Model/API + technical explanation**
-  - AQICN/Open-Meteo logic, forecasting method, model metrics, forecast slide.
+- "The dashboard reveals spatial and temporal variation" rather than "proves causation".
+- "The model supports short-term risk prediction" rather than "guarantees exact future AQI".
+- "Realtime AQICN values are used when available" rather than "all model features are fully realtime".
+- "3D maps support spatial storytelling" rather than "represent physical terrain height".
 
-## 10. Risks and Limitations
+Good findings to discuss:
 
-- Realtime AQICN stations can be stale or missing, so the app needs fallback behavior.
-- District-level sensor data may be uneven across time and districts.
-- AQI and pollutant time series contain extreme values; the app should distinguish real pollution episodes from likely sensor-like spikes instead of blindly deleting outliers.
-- City-level forecasting is stronger than district-level forecasting at this stage.
-- The proposal dashboard is already functional, but final insights and deployment still need refinement.
+- Air quality has strong time-of-day and seasonal variation.
+- District views reveal uneven spatial exposure patterns.
+- Anomaly markers help separate unusual episodes from normal seasonal patterns.
+- Forecast interpretation views make model behavior more transparent.
+- External realtime collection improves demo reliability compared with relying only on Shiny session runtime.
+
+## Demo Team Roles
+
+Replace names with actual teammates:
+
+- Presenter 1: problem, data, and motivation.
+- Presenter 2: Overview and Districts live demo.
+- Presenter 3: History, anomaly handling, and visual design choices.
+- Presenter 4: Forecasting, realtime architecture, Q&A.
+
+## Final Limitations
+
+- Realtime station coverage is limited and can be stale.
+- Some forecast input features use fallback context when AQICN does not provide them.
+- Forecasting is city-level rather than fully district-specific.
+- 3D spatial views improve communication but are not exact physical elevation models.
+- More formal user testing would be needed to fully validate accessibility.

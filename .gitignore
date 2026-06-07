@@ -1,5 +1,7 @@
 # Secrets / local configuration
 aqicn_api_key.md
+hf_token.txt
+dashboard/hf_token.txt
 .env
 .env.*
 
@@ -27,6 +29,8 @@ Thumbs.db
 # Large raw datasets. Keep only the small GeoJSON required by the app.
 data/*
 !data/hanoi_districts.geojson
+dashboard/data/*
+!dashboard/data/hanoi_districts.geojson
 
 # Reference project downloaded for research, not required to run this app.
 Hanoi-Air-Quality-Analysis/
@@ -44,6 +48,8 @@ temp/
 
 # Shiny / local vendor caches
 dashboard/.vendor/
+dashboard/rsconnect-python/
+dashboard/runtime/
 
 # Large optional derived files
 dashboard/processed/hanoi_district_hourly.parquet
@@ -51,5 +57,4 @@ dashboard/processed/model_features.parquet
 data/vietnam_adm2_raw.geojson
 
 # Internal working notes (kept local, not published)
-dashboard/walkthrough.md
 dashboard/task.md

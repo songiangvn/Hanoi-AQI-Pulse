@@ -81,7 +81,7 @@ def _json_safe_value(value):
 def sanitize_figure(fig: go.Figure) -> go.Figure:
     """Return a Plotly figure with strict-JSON-safe data/layout.
 
-    shinywidgets uses a strict JSON encoder, so any NaN/inf inside Plotly traces
-    can crash the websocket and make tabs look like they never finish loading.
+    Plotly renderers use strict JSON paths, so NaN/inf inside traces can make
+    tabs look like they never finish loading.
     """
     return go.Figure(_json_safe_value(fig.to_plotly_json()))
