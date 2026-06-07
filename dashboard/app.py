@@ -15,10 +15,10 @@ import pandas as pd
 import requests
 from shiny import App, reactive, render, ui
 
-from modules.mod_overview import overview_ui, overview_server
-from modules.mod_district import district_ui, district_server
-from modules.mod_history import history_ui, history_server
-from modules.mod_forecast import forecast_ui, forecast_server
+from modules.mod_district import district_server, district_ui
+from modules.mod_forecast import forecast_server, forecast_ui
+from modules.mod_history import history_server, history_ui
+from modules.mod_overview import overview_server, overview_ui
 from src.data import DataBundle, load_bundle
 from src.model import ModelArtifacts, load_model_artifact, predict_next, save_model_artifact, train_city_model
 from src.realtime_api import fetch_fresh_waqi_snapshot, fetch_open_meteo_snapshot, read_aqicn_token
@@ -48,21 +48,36 @@ HANOI_LON = 105.8412
 HORIZONS = {"1h": 1, "6h": 6, "24h": 24}
 
 DISTRICT_CENTROIDS = {
-    "Ba Dinh": (21.0368, 105.8342), "Ba Vi": (21.1990, 105.4230),
-    "Bac Tu Liem": (21.0730, 105.7700), "Cau Giay": (21.0360, 105.7900),
-    "Chuong My": (20.9230, 105.7010), "Dan Phuong": (21.0870, 105.6700),
-    "Dong Anh": (21.1360, 105.8490), "Dong Da": (21.0180, 105.8290),
-    "Gia Lam": (21.0270, 105.9590), "Ha Dong": (20.9710, 105.7780),
-    "Hai Ba Trung": (21.0060, 105.8580), "Hoai Duc": (21.0320, 105.6900),
-    "Hoan Kiem": (21.0285, 105.8542), "Hoang Mai": (20.9750, 105.8650),
-    "Long Bien": (21.0440, 105.9000), "Me Linh": (21.1840, 105.7200),
-    "My Duc": (20.7040, 105.7400), "Nam Tu Liem": (21.0160, 105.7700),
-    "Phu Xuyen": (20.7300, 105.9100), "Phuc Tho": (21.1030, 105.5600),
-    "Quoc Oai": (20.9900, 105.6400), "Soc Son": (21.2570, 105.8500),
-    "Son Tay": (21.1400, 105.5050), "Tay Ho": (21.0680, 105.8200),
-    "Thach That": (21.0300, 105.5400), "Thanh Oai": (20.8600, 105.7700),
-    "Thanh Tri": (20.9400, 105.8500), "Thanh Xuan": (20.9950, 105.8090),
-    "Thuong Tin": (20.8700, 105.8700), "Ung Hoa": (20.7200, 105.7800),
+    "Ba Dinh": (21.0368, 105.8342),
+    "Ba Vi": (21.1990, 105.4230),
+    "Bac Tu Liem": (21.0730, 105.7700),
+    "Cau Giay": (21.0360, 105.7900),
+    "Chuong My": (20.9230, 105.7010),
+    "Dan Phuong": (21.0870, 105.6700),
+    "Dong Anh": (21.1360, 105.8490),
+    "Dong Da": (21.0180, 105.8290),
+    "Gia Lam": (21.0270, 105.9590),
+    "Ha Dong": (20.9710, 105.7780),
+    "Hai Ba Trung": (21.0060, 105.8580),
+    "Hoai Duc": (21.0320, 105.6900),
+    "Hoan Kiem": (21.0285, 105.8542),
+    "Hoang Mai": (20.9750, 105.8650),
+    "Long Bien": (21.0440, 105.9000),
+    "Me Linh": (21.1840, 105.7200),
+    "My Duc": (20.7040, 105.7400),
+    "Nam Tu Liem": (21.0160, 105.7700),
+    "Phu Xuyen": (20.7300, 105.9100),
+    "Phuc Tho": (21.1030, 105.5600),
+    "Quoc Oai": (20.9900, 105.6400),
+    "Soc Son": (21.2570, 105.8500),
+    "Son Tay": (21.1400, 105.5050),
+    "Tay Ho": (21.0680, 105.8200),
+    "Thach That": (21.0300, 105.5400),
+    "Thanh Oai": (20.8600, 105.7700),
+    "Thanh Tri": (20.9400, 105.8500),
+    "Thanh Xuan": (20.9950, 105.8090),
+    "Thuong Tin": (20.8700, 105.8700),
+    "Ung Hoa": (20.7200, 105.7800),
 }
 
 
@@ -78,10 +93,18 @@ def snapshot_overrides(snapshot: dict[str, Any] | None) -> dict[str, float]:
     if not isinstance(snapshot, dict):
         return {}
     mapping = {
-        "aqi": "aqi", "pm25": "pm25", "pm10": "pm10", "co": "co",
-        "no2": "no2", "o3": "o3", "so2": "so2", "temp": "temperature",
-        "humidity": "relative_humidity", "pressure": "pressure",
-        "wind": "wind_speed", "precipitation": "precipitation",
+        "aqi": "aqi",
+        "pm25": "pm25",
+        "pm10": "pm10",
+        "co": "co",
+        "no2": "no2",
+        "o3": "o3",
+        "so2": "so2",
+        "temp": "temperature",
+        "humidity": "relative_humidity",
+        "pressure": "pressure",
+        "wind": "wind_speed",
+        "precipitation": "precipitation",
     }
     out: dict[str, float] = {}
     for src, dst in mapping.items():
