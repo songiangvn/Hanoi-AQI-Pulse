@@ -2,6 +2,13 @@
 
 Interactive spatial, temporal, real-time, and predictive visualization of Hanoi air pollution.
 
+## Team Contribution
+- Le Phuong Linh: Story-telling, Preprocessing
+- Luu Nguyen Chi Duc: UI/UX, Overview Module
+- Nguyen Gia Hung: Districts Module
+- Thai Huu Tri: History Module
+- Nguyen Son Giang: Forecase Module
+
 ## Final Project Status
 
 Hanoi Air Quality Pulse is a deployed Python Shiny dashboard for exploring Hanoi air quality across realtime station readings, 30 districts, historical temporal patterns, and short-term AQI / PM2.5 forecasts.
